@@ -1,18 +1,28 @@
-@import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@700&family=Kalam:wght@300;400&family=Raleway:wght@300;400;600&display=swap');
-*{
+@import url('https://fonts.googleapis.com/css2?family=Comic+Neue:ital,wght@0,400;1,400;1,700&family=Cutive+Mono&family=Gowun+Batang:wght@400;700&family=Kalam:wght@300;400&family=Raleway:wght@300;400;600&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Ubuntu&display=swap');
+
+* {
   font-family: 'Raleway', sans-serif;
 }
-.normal{
+
+.normal {
   font-family: 'Raleway', sans-serif;
 }
-.handwrite{
+
+.normal-bold {
+  font-family: 'Raleway', sans-serif;
+  font-weight: 700;
+}
+
+.handwrite {
   font-family: 'Kalam', cursive;
 }
-.serif{
+
+.serif {
   font-family: 'Gowun Batang', serif;
   font-weight: 400;
 }
-.serif-bold{
+
+.serif-bold {
   font-family: 'Gowun Batang', serif;
   font-weight: 700;
 }
@@ -22,106 +32,127 @@ body {
   margin: 0;
 }
 
-.btn{
+.btn {
   border-bottom: 2px rgba(0, 0, 0, 0.31) solid;
   border-right: 2px rgba(0, 0, 0, 0.31) solid;
 
 }
-a{
-  color:rgb(238, 214, 149);
+
+a {
+  color: rgb(238, 214, 149);
   font-family: 'Gowun Batang', serif;
   font-weight: 700;
   text-decoration: inherit;
 }
+
 a:hover {
   color: rgb(200, 175, 112);
   font-weight: 700;
   text-decoration: inherit;
 }
 
-ul.hidden>li{
-list-style: none;
+ul.hidden>li {
+  list-style: none;
 }
-.notebook{
-  background-image: url("./assets/margin.png"),url("./assets/whiteline.png");
-  background-repeat: repeat-y,repeat;
-  background-attachment:fixed;
+
+.notebook {
+  background-image: url("./assets/margin.png"), url("./assets/whiteline.png");
+  background-repeat: repeat-y, repeat;
+  background-attachment: fixed;
 }
-.margin-only{
+
+.margin-only {
   background-image: url("./assets/margin.png");
   background-repeat: repeat-y;
 }
-.bg-black{
-  background-color: rgba(0, 0, 0, 0.822) !important; /* to add some transparency to offcanvas */
+
+.bg-black {
+  background-color: rgba(0, 0, 0, 0.822) !important;
+  /* to add some transparency to offcanvas */
 }
-.form-grid{
+
+.form-grid {
   display: grid;
   grid-template-columns: 2fr 5fr;
   align-items: center;
 }
-.notebook-light{
-  background:url("./assets/margin.png") repeat-y,url("./assets/greyline.png") repeat;
-  background-attachment:fixed; 
+
+.notebook-light {
+  background: url("./assets/margin.png") repeat-y, url("./assets/greyline.png") repeat;
+  background-attachment: fixed;
 }
-.register-form >input{
+
+.register-form>input {
   background-color: rgba(0, 0, 0, 0.269);
   color: white;
 }
-.register-form >input:focus{
+
+.register-form>input:focus {
   background-color: rgba(0, 0, 0, 0.533);
   color: white;
 }
-.linkify>button, .linkify>button:active, .linkify>button:hover{
-  background:none !important;
+
+.linkify>button,
+.linkify>button:active,
+.linkify>button:hover {
+  background: none !important;
   border: none !important;
   padding: 0 !important;
   outline: none !important;
   box-shadow: none !important;
-  color:rgb(238, 214, 149) !important;
+  color: rgb(238, 214, 149) !important;
 }
-.linkify>button:hover{
+
+.linkify>button:hover {
   color: rgb(200, 175, 112) !important;
 }
 
-.text-shadow{
+.text-shadow {
   text-shadow: 0px 0px 10px rgb(0, 0, 0);
 }
-.note-card{
-  
+
+.note-card {
+
   aspect-ratio: 1/1.414;
   overflow: hidden;
   border-radius: 20px;
   border: 12px solid transparent;
   padding: 15px;
-  border-image: url('./assets/border.png') 30 repeat; 
-  
+  border-image: url('./assets/border.png') 30 repeat;
+
 }
-.modal-90w{
-  max-width: none!important;
+
+.modal-90w {
+  max-width: none !important;
   max-height: none !important;
-  width:min(1000px, 95%);
+  width: min(1000px, 95%);
   height: 95vh !important;
 }
-.modal-content{
+
+.modal-content {
   height: 100%;
 }
-.mini *{
-scale: 0.5;
-transform: translate(-50%,-50%);
-padding:0;
-margin: 0;
-word-spacing: 25%;
-white-space-collapse:collapse;
-line-height: 0.9;
+
+.mini * {
+  scale: 0.5;
+  transform: translate(-50%, -50%);
+  padding: 0;
+  margin: 0;
+  word-spacing: 25%;
+  white-space-collapse: collapse;
+  line-height: 0.9;
 }
-.mini{
+
+.mini {
   padding: 30px;
   width: 200%;
   height: 200%;
 }
-.mini p{
+
+.mini p {
   text-align: justify;
 }
+
 .nav-pills .nav-link {
   background-color: rgb(204, 106, 127) !important;
   color: #FFFFFF !important;
@@ -134,14 +165,77 @@ line-height: 0.9;
   padding-right: 30px;
 }
 
-.nav-pills .nav-link.active{
+.nav-pills .nav-link.active {
   background-color: rgb(175, 33, 64) !important;
   border-bottom: solid 2px rgb(175, 33, 64) !important;
 }
+
 .nav-pills .nav-link:hover {
   background-color: rgb(179, 73, 94) !important;
 }
-.nav-link.active:hover{
-  background-color: rgb(175, 33, 64) !important;
 
+.nav-link.active .nav-link {
+  background-color: rgb(103, 53, 63) !important;
+}
+
+.nav-link.active:hover {
+  background-color: rgb(175, 33, 64) !important;
+}
+
+.controls-parent .controls {
+  visibility: hidden;
+}
+
+.controls-parent:hover .controls {
+  visibility: visible;
+}
+
+.hide-toolbar .ql-toolbar {
+  display: none;
+}
+
+
+/*_____________________Quill Styless______________ */
+/* React quill */
+.hide-toolbar .ql-toolbar {
+  display: none;
+}
+
+.hide-toolbar .ql-editor {
+  outline: 5px rgb(255, 255, 255) solid !important;
+}
+
+.ql-snow .ql-picker {
+  color: #ffffff;
+}
+
+.ql-snow .ql-stroke {
+  stroke: white;
+}
+
+.ql-snow .ql-fill {
+  fill: white;
+}
+
+.ql-toolbar.ql-snow .ql-picker-options {
+  background-color: rgb(40, 40, 40)
+}
+
+.ql-toolbar {
+  border-radius: 15px 15px 0 0;
+  background-color: rgb(77, 77, 77);
+  background-image: linear-gradient(to bottom, rgb(40, 40, 40), rgb(71, 71, 71));
+  padding: 15px !important;
+}
+
+.ql-snow p {
+  font-size: 1.5em;
+}
+
+.ql-size-small {
+  font-size: 1em;
+}
+
+.ql-size-large {
+  font-size: 2em;
 }

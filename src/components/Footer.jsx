@@ -20,7 +20,7 @@ function Footer() {
                 </Link>
                     </Col>
 
-                    <Col lg={3} md={6}>
+                    <Col lg={3} xs={6}>
                         <h4 className='px-5 text-white serif-bold'>
                             Links
                         </h4>
@@ -30,7 +30,7 @@ function Footer() {
                             <li><Link to={'/'}>Register</Link></li>
                         </ul>
                     </Col>
-                    <Col lg={3} md={6}>
+                    <Col lg={3} xs={6}>
                         <h4 className='px-5 text-white serif-bold'>
                             Guides
                         </h4>

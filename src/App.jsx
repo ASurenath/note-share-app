@@ -13,15 +13,13 @@ function App() {
 
   return (
     <>
-      <Header />
       <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/register' element={<Register />} />
-        <Route path='/browse' element={<Browse />} />
-        {/* <Route path='/favorites' element={<Home />} /> */}
-        <Route path='/dashboard' element={<Dashboard />} />
+        <Route path='/' element={<> <Header headerFor={'home'}/><Home /></>} />
+        <Route path='/register' element={<> <Header headerFor={'register'}/><Register /></>} />
+        <Route path='/browse' element={<> <Header headerFor={'browser'}/><Browse /></>} />
+        <Route path='/dashboard' element={<> <Header headerFor={'dashboard'}/><Dashboard /></>} />
         {/* <Route path='/note/:id' element={<Home />} /> */}
-        <Route path='/edit/:id' element={<Home />} />
+        <Route path='/edit/:id' element={<> <Header headerFor={''}/><Home /></>} />
         <Route path='/*' element={<Navigate to={'/'}/>} />
       </Routes>
       <Footer />

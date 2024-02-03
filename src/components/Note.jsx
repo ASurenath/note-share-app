@@ -1,16 +1,18 @@
 import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
-function Note({ title, data }) {
+function Note({ data }) {
     const [show, setShow] = useState(false);
 
     return (
         <>
-            <div onClick={() => setShow(true)} className=' note-card bg-white p-2 mx-5 mb-0' style={{cursor:'zoom-in',padding:0,margin:0}}>
-                <div dangerouslySetInnerHTML={{ __html:data}} className='p-0 mt-0 mini'></div>
+            <div onClick={() => setShow(true)} className=' note-card bg-white p-2 mx-5 mb-0' style={{ cursor: 'zoom-in', padding: 0, margin: 0 }}>
+                <div dangerouslySetInnerHTML={{ __html: data }} className='p-0 mt-0 mini'></div>
             </div>
-            <h3 className='m-1 p-1 text-white'>{title}</h3>
+
 
             <Modal
                 show={show}
@@ -19,15 +21,24 @@ function Note({ title, data }) {
                 aria-labelledby="example-custom-modal-styling-title"
                 centered
             >
-                <Modal.Header closeButton>
+                <Modal.Header>
                     <Modal.Title id="example-custom-modal-styling-title">
-                        Custom Modal Styling
+                        Document title 
                     </Modal.Title>
+                    <p className='ms-auto pt-1'>Author:  Name</p>
+                    <Button  onClick={()=>{setShow(false)}} variant='primary' className='ms-auto'><i className='fa-solid fa-x'/></Button>
+                   
                 </Modal.Header>
                 <Modal.Body>
-                    <div  dangerouslySetInnerHTML={{ __html:data}}>
-           
+                    <div className='hide-toolbar'>
+                        <ReactQuill
+                            value={data}
+                            readOnly={true}
+                            theme={"snow"}
+                            style={{height:'75vh'}}
+                        />
                     </div>
+
                 </Modal.Body>
             </Modal>
         </>

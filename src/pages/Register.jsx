@@ -71,9 +71,6 @@ function Register() {
         setValidity({ ...validity, [name]: false })
       }
     }
-
-    
-
   }
   return (
     <div className='notebook bg-secondary d-flex flex-column justify-content-center align-items-center text-center pb-5' style={{ minHeight: '100vh' }}>
@@ -99,7 +96,6 @@ function Register() {
               <Button variant='success fs-5' className='serif-bold' disabled={!readyToSubmit}>Register</Button>
             </div>
             <div className='d-flex align-items-center justify-content-center handwrite fs-3 pt-3 text-shadow'>Already a member? <div className='linkify p-0' style={{ scale: '0.8' }} > <Login/></div></div>
-
           </Col>
          
         </Row>
