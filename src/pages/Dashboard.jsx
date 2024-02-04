@@ -1,12 +1,14 @@
 import Nav from 'react-bootstrap/Nav';
 import Tab from 'react-bootstrap/Tab';
 import Note from '../components/Note';
-import { Col, Container, Row } from 'react-bootstrap';
+import { Button, Col, Container, Row } from 'react-bootstrap';
 import EditNote from '../components/EditNote';
 import AddNote from '../components/AddNote';
 import DeleteNote from '../components/DeleteNote';
 import avatar from '../assets/avatar.png'
 import EditProfile from '../components/EditProfile';
+import ChangePassword from '../components/ChangePassword';
+import DeleteUser from '../components/DeleteUser';
 
 
 
@@ -43,7 +45,7 @@ function Dashboard() {
                 <Tab.Content>
                     <Tab.Pane eventKey="first" className='w-100'>
                         <div className='mx-auto w-75 d-flex justify-content-evenly'>
-                            <h2 className='serif text-white pt-4'>Manage your Notes</h2>
+                            <h2 className='serif-bold text-white pt-4'>Manage your Notes</h2>
                             <AddNote />
                         </div>
                         <Container fluid='sm'>
@@ -64,8 +66,8 @@ function Dashboard() {
                     </Tab.Pane>
                     <Tab.Pane eventKey="second" className='w-100'>
                         <div className='mx-auto w-75 d-flex justify-content-evenly'>
-                            <h2 className='serif text-white pt-4'>Welcome&nbsp;<span className='text-danger serif text-shadow'>User!</span></h2>
-                            <EditProfile/>
+                            <h2 className='serif-bold text-white pt-4'>Welcome&nbsp;<span className='text-danger serif-bold text-shadow'>User!</span></h2>
+                            <EditProfile />
                         </div>
                         <Container fluid='sm'>
                             <Row className='py-4'>
@@ -75,15 +77,20 @@ function Dashboard() {
                                 </Col>
                                 <Col md={8} className='px-5'>
                                     <div className='form-grid text-white fs-5 text-start' >
-                                        <span className='text-danger text-shadow py-3'>Email: </span> 
+                                        <span className=' text-shadow py-3'>Email: </span>
                                         <span >Email ID</span>
-                                        <span className='text-danger text-shadow  py-3'>Interests: </span> 
+                                        <span className=' text-shadow  py-3'>Interests: </span>
                                         <span >Topic1, Topic2,Topic3</span>
-                                        <div className='text-danger text-shadow pb-5 py-3'>Bio: </div> 
-                                        <div className='py-3' style={{ minHeight: '100px', width: 'min(300px,70vw)'}}>Something about you...</div>
+                                        <div className=' text-shadow pb-5 py-3'>Bio: </div>
+                                        <div className='py-3' style={{ minHeight: '100px', width: 'min(300px,70vw)' }}>Something about you...</div>
                                     </div>
                                 </Col>
                             </Row>
+                            <div className='d-flex justify-content-between'>
+                                <DeleteUser/>
+                                <ChangePassword/>
+
+                            </div>
                         </Container>
                     </Tab.Pane>
                 </Tab.Content>

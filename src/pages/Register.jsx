@@ -25,13 +25,11 @@ function Register() {
       setReadyToSubmit(false)
     }
   }, [userData, validity])
-  const clearData=()=>{
-    setUserData({
-      name: "", email: "", password: "", password2: ""
-    })
-  }
-
-
+  // const clearData=()=>{
+  //   setUserData({
+  //     name: "", email: "", password: "", password2: ""
+  //   })
+  // }
 
   console.log(userData);
   console.log(validity);
@@ -55,7 +53,7 @@ function Register() {
       }
     }
     else if (name == 'password') {
-      if (value.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{3,20}$/)) {
+      if (value.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{3,100}$/)) {
         setValidity({ ...validity, [name]: true })
       }
       else {
@@ -74,7 +72,7 @@ function Register() {
   }
   return (
     <div className='notebook bg-secondary d-flex flex-column justify-content-center align-items-center text-center pb-5' style={{ minHeight: '100vh' }}>
-      <h1 className='serif text-center text-white'>Register for <span className='text-warning serif'>free!</span></h1>
+      <h1 className='serif-bold text-center text-white'>Register for <span className='text-warning serif-bold'>free!</span></h1>
       <Container fluid='sm' className=' normal p-2 text-left text-white'>
         <Row>
           <Col lg={6} className='d-flex justify-content-center align-items-center'>

@@ -73,7 +73,7 @@ function EditNote({ data }) {
                     <p className='ms-auto'></p>
                     <p className='ms-auto'></p>
                     <Button disabled={(value==saved)} onClick={handleSave} variant='success' className='ms-auto'>Save</Button>
-                    <Button onClick={handleClose} variant='primary' className='ms-4'><i className="fa-solid fa-xmark"></i></Button>
+                    <Button onClick={handleClose} variant='primary' className='ms-4'><i className="fa-solid fa-xmark"/></Button>
 
                 </Modal.Header>
                 <Modal.Body>

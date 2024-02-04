@@ -193,9 +193,20 @@ ul.hidden>li {
 .hide-toolbar .ql-toolbar {
   display: none;
 }
+.fav{
+  color:rgb(162, 161, 161);
+  cursor: pointer;
+}
+
+.fav:hover{
+  color:rgb(189, 45, 64) ;
+}
+.red{
+  color:rgb(48, 0, 0);
+}
 
 
-/*_____________________Quill Styless______________ */
+/*###############___Quill Styless___################# */
 /* React quill */
 .hide-toolbar .ql-toolbar {
   display: none;

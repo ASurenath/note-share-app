@@ -49,12 +49,12 @@ function Browse() {
                         </ToggleButtonGroup>
                     </Col>
                 </Row>
-                <h2 className='text-center serif text-white'>{fav ? <>Favourites</> : <>All Notes</>}</h2>
+                <h2 className='text-center serif-bold text-white'>{fav ? <>Favourites</> : <>All Notes</>}</h2>
                 <Row className='py-4'>
                     {[1, 2, 3, 4, 5, 6, 7, 8].map((i, index) =>
                         <Col lg={3} md={4} sm={6} xs={12} key={index} className='px-1  py-4' style={{ position: 'relative' }}>
                             <div className='d-flex justify-content-evenly' style={{ position: 'absolute', left: '20%', top: '10%', width: '100%', zIndex: '1' }}>
-                               <h2 style={{cursor:'pointer'}}> {"dummyFav" == "dummyFav" ? <i className="fa-solid fa-heart text-secondary"/>: <i class="fa-soild fa-heart text-danger"/>}</h2>
+                               <h2 className='fav'> <i className="fa-solid fa-heart"/></h2>
                             </div>
                             
                             <Note data={sampleText(i)} />
