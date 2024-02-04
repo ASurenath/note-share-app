@@ -24,7 +24,7 @@ function Browse() {
     `
     }
     return (
-        <div className='notebook d-flex flex-column justify-content-center align-items-center bg-secondary text-center pb-5 pt-lg-5' style={{ minHeight: '100vh' }}>
+        <div className='page notebook d-flex flex-column justify-content-center align-items-center bg-secondary text-center pb-5 pt-lg-5' >
             <Container fluid='sm' style={{ minHeight: '100vh' }}>
                 <Row className='w-100'>
                     <Col md={8} className='d-flex justify-content-center align-items-center'>
@@ -38,7 +38,7 @@ function Browse() {
                             />
                         </InputGroup>
                     </Col>
-                    <Col md={4}>
+                    <Col md={4}  className='d-flex justify-content-center align-items-center'>
                         <ToggleButtonGroup type="radio" name="options" className='normal-bold' defaultValue={1} >
                             <ToggleButton onClick={() => setFav(false)} id="tbg-radio-1" value={1} variant={'danger'} style={{ borderRadius: '50px 0 0 50px' }}>
                                 <b>All Notes</b>
@@ -56,7 +56,6 @@ function Browse() {
                             <div className='d-flex justify-content-evenly' style={{ position: 'absolute', left: '20%', top: '10%', width: '100%', zIndex: '1' }}>
                                <h2 className='fav'> <i className="fa-solid fa-heart"/></h2>
                             </div>
-                            
                             <Note data={sampleText(i)} />
                             <h3 className='m-1 p-1 text-white'>{`title ${i}`}</h3>
                         </Col>

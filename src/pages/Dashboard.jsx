@@ -28,10 +28,9 @@ function Dashboard() {
 </ul>
     `}
     return (
-        <div className='notebook d-flex flex-column justify-content-start align-items-center bg-secondary text-center pb-5' style={{ minHeight: '100vh' }}>
+        <div className='page notebook d-flex flex-column justify-content-start align-items-center bg-secondary text-center pb-5'>
 
             <Tab.Container id="left-tabs-example" defaultActiveKey="first" variant="success">
-
                 <Nav variant="pills " className="flex-row justify-content-center ">
                     <Nav.Item>
                         <Nav.Link eventKey="first" style={{ borderRadius: '50px 0 0 50px' }} className='normal-bold'>Manage Notes</Nav.Link>
@@ -41,13 +40,16 @@ function Dashboard() {
                     </Nav.Item>
                 </Nav>
 
-
                 <Tab.Content>
                     <Tab.Pane eventKey="first" className='w-100'>
-                        <div className='mx-auto w-75 d-flex justify-content-evenly'>
-                            <h2 className='serif-bold text-white pt-4'>Manage your Notes</h2>
-                            <AddNote />
-                        </div>
+                        <Row className='mx-auto w-75 d-flex justify-content-evenly'>
+                            <Col sm={6}>
+                                <h2 className='serif-bold text-white pt-4'>Manage your Notes</h2>
+                            </Col>
+                            <Col sm={6}>
+                                <AddNote />
+                            </Col>
+                        </Row>
                         <Container fluid='sm'>
                             <Row className='py-4'>
                                 {[1, 2, 3, 4].map((i, index) =>
@@ -70,27 +72,33 @@ function Dashboard() {
                             <EditProfile />
                         </div>
                         <Container fluid='sm'>
-                            <Row className='py-4'>
+                            <Row className='py-4 w-100'>
 
-                                <Col md={4} className='px-5'>
+                                <Col md={4} className='px-5 w-100 '>
                                     <img src={avatar} className='img-fluid mx-5' alt="" />
                                 </Col>
-                                <Col md={8} className='px-5'>
-                                    <div className='form-grid text-white fs-5 text-start' >
-                                        <span className=' text-shadow py-3'>Email: </span>
-                                        <span >Email ID</span>
-                                        <span className=' text-shadow  py-3'>Interests: </span>
-                                        <span >Topic1, Topic2,Topic3</span>
-                                        <div className=' text-shadow pb-5 py-3'>Bio: </div>
-                                        <div className='py-3' style={{ minHeight: '100px', width: 'min(300px,70vw)' }}>Something about you...</div>
-                                    </div>
+                                <Col md={8} className='px-5 w-100'>
+                                    <Row className='text-white fs-4 text-start'>
+                                        <Col sm={4} className=' text-shadow pt-1'><p>Email:</p> </Col>
+                                        <Col sm={8} ><p>Email ID</p></Col>
+                                        <Col sm={4} className=' text-shadow  pt-1'><p>Interests:</p> </Col>
+                                        <Col sm={8} ><p>Topic1, Topic2,Topic3</p></Col>
+                                        <Col sm={4} className=' text-shadow pb-sm-5 pt-1'><p>Bio:</p> </Col>
+                                        <Col sm={8}><p className='pt-1' style={{ minHeight: '100px', width: 'min(300px,70vw)' }}>Something about you...</p></Col>
+                                    </Row>
                                 </Col>
-                            </Row>
-                            <div className='d-flex justify-content-between'>
-                                <DeleteUser/>
-                                <ChangePassword/>
 
-                            </div>
+                                <Row className=' w-100'>
+                                    <Col sm={6} className='mb-3'>
+                                        <ChangePassword />
+
+                                    </Col>
+                                    <Col sm={6}>
+                                        <DeleteUser />
+                                    </Col>
+                                </Row>
+                            </Row>
+
                         </Container>
                     </Tab.Pane>
                 </Tab.Content>

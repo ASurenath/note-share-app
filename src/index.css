@@ -30,6 +30,11 @@
 
 body {
   margin: 0;
+  overflow-x: hidden;
+}
+
+.page {
+  min-height: 100vh
 }
 
 .btn {
@@ -50,6 +55,7 @@ a:hover {
   font-weight: 700;
   text-decoration: inherit;
 }
+
 
 ul.hidden>li {
   list-style: none;
@@ -182,6 +188,10 @@ ul.hidden>li {
   background-color: rgb(175, 33, 64) !important;
 }
 
+.nav-link {
+  padding: 10px !important;
+}
+
 .controls-parent .controls {
   visibility: hidden;
 }
@@ -193,16 +203,22 @@ ul.hidden>li {
 .hide-toolbar .ql-toolbar {
   display: none;
 }
-.fav{
-  color:rgb(162, 161, 161);
+
+.form-control {
+  border-radius: 30px;
+}
+
+.fav {
+  color: rgb(162, 161, 161);
   cursor: pointer;
 }
 
-.fav:hover{
-  color:rgb(189, 45, 64) ;
+.fav:hover {
+  color: rgb(189, 45, 64);
 }
-.red{
-  color:rgb(48, 0, 0);
+
+.red {
+  color: rgb(48, 0, 0);
 }
 
 
@@ -249,4 +265,56 @@ ul.hidden>li {
 
 .ql-size-large {
   font-size: 2em;
+}
+
+/* ############________ Media query_____________########### */
+@media(min-width:575px) {}
+
+@media(max-width:575px) {
+  * {
+    font-size: 0.9em;
+  }
+
+  p {
+    font-size: 1.2rem;
+  }
+
+  a {
+    font-size: 1rem;
+  }
+
+  .fav i {
+    font-size: 3em !important;
+  }
+
+  label {
+    font-size: 1rem;
+  }
+
+  h2 {
+    font-size: 3em;
+  }
+
+  
+  h4 {
+    font-size: 1.5em;
+  }
+
+  ul.hidden {
+    padding-left: 2px;
+  }
+
+  .page {
+    min-height: 60vh
+  }
+
+  .btn,
+  .nav-link {
+    font-size: 1rem;
+    padding: 7px !important;
+  }
+
+  .ql-toolbar {
+    padding: 5px !important;
+  }
 }

@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Button, Modal } from 'react-bootstrap'
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Tooltip from 'react-bootstrap/Tooltip';
 
 
 function ChangePassword() {
@@ -8,8 +10,10 @@ function ChangePassword() {
     const [validity, setValidity] = useState({ newPassword: true, newPassword2: true })
     const [readyToSubmit, setReadyToSubmit] = useState(false)
 
+
+
     useEffect(() => {
-        if (passwords.currentPassword != "" &&passwords.newPassword != "" &&passwords.newPassword2 != "" &&   validity.newPassword && validity.newPassword2) {
+        if (passwords.currentPassword != "" && passwords.newPassword != "" && passwords.newPassword2 != "" && validity.newPassword && validity.newPassword2) {
             setReadyToSubmit(true)
         }
         else {
@@ -29,7 +33,12 @@ function ChangePassword() {
         setPasswords({ ...passwords, [name]: value })
         if (name == 'newPassword') {
             if (value.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{3,100}$/)) {
-                setValidity({ ...validity, [name]: true })
+                if(value==passwords.newPassword2){
+                    setValidity({...validity,[name]: true,newPassword2:true})
+                  }
+                  else{
+                    setValidity({...validity,[name]: true,newPassword2:false})
+                  }
             }
             else {
                 setValidity({ ...validity, [name]: false })
@@ -44,6 +53,19 @@ function ChangePassword() {
             }
         }
     }
+
+    const renderTooltip = (props) => (
+        <Tooltip id="button-tooltip" {...props}>
+            Password should<br /> have
+            minimum
+            <ul className='text-start'>
+                <li>1 small letter</li>
+                <li>1 capital letter</li>
+                <li>1 number</li>
+            </ul>
+        </Tooltip>
+    );
+
     return (
         <div>
             <Button className='serif-bold' onClick={handleOpen}>Change password</Button>
@@ -63,15 +85,23 @@ function ChangePassword() {
                 </Modal.Header>
                 <Modal.Body className='pb-3'>
                     <div className='form-grid pb-3'>
-                    
+
                         <label htmlFor='password1'>Current password:</label>
                         <input id='password1' name='currentPassword' type="password" onChange={e => setData(e)} className='form-control mb-3' placeholder='Enter your current password..' />
 
-                        {!validity.newPassword&&<><p></p><span className='text-danger'>Invalid password</span></>}
-                        <label htmlFor='password2'>New password:</label>
+                        {!validity.newPassword && <><p></p><span className='text-danger'>Invalid password</span></>}
+                        <label htmlFor='password2'>
+                            New password: &nbsp;
+                            <OverlayTrigger
+                                placement="bottom"
+                                delay={{ show: 250, hide: 400 }}
+                                overlay={renderTooltip}>
+                                <i className="fa-regular fa-circle-question" />
+                            </OverlayTrigger>
+                        </label>
                         <input id='password2' name='newPassword' type="password" onChange={e => setData(e)} className='form-control mb-3' placeholder='Enter your new password..' />
 
-                        {!validity.newPassword2&&<><p></p><span className='text-danger'>Passwords should match</span></>}
+                        {validity.newPassword&&!validity.newPassword2 && <><p></p><span className='text-danger'>Passwords should match</span></>}
                         <label htmlFor="password3">Re-enter new password:</label>
                         <input id='password3' name='newPassword2' type="password" onChange={e => setData(e)} className='form-control mb-3' placeholder='Re-enter your new password..' />
                     </div>

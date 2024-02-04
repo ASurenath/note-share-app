@@ -55,7 +55,7 @@ function Header({headerFor}) {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav-2" >
           {loginStatus &&
-            <Nav className='me-auto'>
+            <Nav className='me-lg-auto'>
               <div  name="navigation"  className='pt-3 text-center' >
                 <Button disabled={headerFor=='home'} onClick={() => {navigate('/')}} variant={'success'} style={{ borderRadius: '50px 0 0 50px' }} className='px-md-4'>
                   <b>Home</b>
@@ -72,7 +72,7 @@ function Header({headerFor}) {
           <Nav className='ms-auto'>
             {loginStatus ?
               <>
-                <div className='text-end'>
+                <div className='text-center'>
                   <Link to={'/dashboard'} style={{ color: 'white' }}><i className="fa-regular fa-user"></i>&nbsp;: User</Link>
                   <Button variant='danger' onClick={logout} style={{ scale: '0.75' }}>
                     <h3 className='serif-bold'>

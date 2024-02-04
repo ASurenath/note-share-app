@@ -22,7 +22,7 @@ function Home() {
   
 
   return (
-    <div className='notebook d-flex flex-column justify-content-start align-items-center bg-secondary text-center pb-5' style={{minHeight:'100vh'}}>
+    <div className='page notebook d-flex flex-column justify-content-start align-items-center bg-secondary text-center pb-5'>
             <h3 className='serif-bold p-4 text-white'><span className='text-warning handwrite'>Share </span> and <span className='text-warning handwrite'> explore </span> notes effortlessly. {!loginStatus && <>Join our learning community today!</>} </h3>
 
       <img src={notes} alt="clip art of two people sharing notes"  style={{width:'min(900px,90%)'}}/>

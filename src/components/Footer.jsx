@@ -21,7 +21,7 @@ function Footer() {
                     </Col>
 
                     <Col lg={3} xs={6}>
-                        <h4 className='px-5 text-white serif-bold'>
+                        <h4 className='px-sm-5 text-white serif-bold'>
                             Links
                         </h4>
                         <ul className='hidden serif-bold'>
@@ -31,7 +31,7 @@ function Footer() {
                         </ul>
                     </Col>
                     <Col lg={3} xs={6}>
-                        <h4 className='px-5 text-white serif-bold'>
+                        <h4 className='px-sm-5 text-white serif-bold'>
                             Guides
                         </h4>
                         <ul className='serif-bold hidden'>
@@ -45,7 +45,7 @@ function Footer() {
                             Contact Us
                         </h4>
                         <form action="">
-                            <input type="email" name="" id="" placeholder='Your email id' className='form-control' />
+                            <input type="email" name="" id="" placeholder='Your email id' className='form-control rounded-5' />
                             <button className='btn btn-outline-light mt-2'>Send an E-mail</button>
                         </form>
                     </Col>

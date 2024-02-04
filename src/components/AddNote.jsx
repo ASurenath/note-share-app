@@ -13,7 +13,7 @@ function AddNote() {
   }
   return (
     <div>
-      <Button variant='danger' className='mt-3' onClick={handleOpen}>
+      <Button variant='danger' className='mt-3 p-1' onClick={handleOpen}>
         <h3 className='serif'>New&nbsp;note!</h3>
       </Button>
       <Modal

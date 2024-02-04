@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Col, Container, Row } from 'react-bootstrap';
+import { Button, Col, Container, OverlayTrigger, Row, Tooltip } from 'react-bootstrap';
 import signup from '../assets/signup.svg'
 import Login from '../components/Login';
 import { Link } from 'react-router-dom';
@@ -17,11 +17,11 @@ function Register() {
   const [readyToSubmit, setReadyToSubmit] = useState(false)
 
   useEffect(() => {
-    if(userData.name!="" &&  userData.email !="" && userData.password!="" && userData.password2!=""
-    && validity.name && validity.email && validity.password && validity.password2){
+    if (userData.name != "" && userData.email != "" && userData.password != "" && userData.password2 != ""
+      && validity.name && validity.email && validity.password && validity.password2) {
       setReadyToSubmit(true)
     }
-    else{
+    else {
       setReadyToSubmit(false)
     }
   }, [userData, validity])
@@ -54,7 +54,12 @@ function Register() {
     }
     else if (name == 'password') {
       if (value.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{3,100}$/)) {
-        setValidity({ ...validity, [name]: true })
+        if(value==userData.password2){
+          setValidity({...validity,[name]: true,password2:true})
+        }
+        else{
+          setValidity({...validity,[name]: true,password2:false})
+        }
       }
       else {
         setValidity({ ...validity, [name]: false })
@@ -70,8 +75,19 @@ function Register() {
       }
     }
   }
+  const renderTooltip = (props) => (
+    <Tooltip id="button-tooltip" {...props}>
+        Password should<br /> have
+        minimum
+        <ul className='text-start'>
+            <li>1 small letter</li>
+            <li>1 capital letter</li>
+            <li>1 number</li>
+        </ul>
+    </Tooltip>
+);
   return (
-    <div className='notebook bg-secondary d-flex flex-column justify-content-center align-items-center text-center pb-5' style={{ minHeight: '100vh' }}>
+    <div className='page notebook bg-secondary d-flex flex-column justify-content-center align-items-center text-center pb-5'>
       <h1 className='serif-bold text-center text-white'>Register for <span className='text-warning serif-bold'>free!</span></h1>
       <Container fluid='sm' className=' normal p-2 text-left text-white'>
         <Row>
@@ -84,18 +100,27 @@ function Register() {
               <input type="text" name='name' onChange={e => setData(e)} value={userData.name} id='name' placeholder='Your name' className='form-control mb-3 rounded-5' />
               <label htmlFor='email'>Email: </label> {!validity.email && <span className='text-danger'>Invalid Email!</span>}
               <input type="email" name='email' onChange={e => setData(e)} value={userData.email} id='email' placeholder='Your E-mail ID' className='form-control mb-3 rounded-5' />
-              <label htmlFor='password'>Password: </label> {!validity.password && <span className='text-danger'>Invalid Password!</span>}
+              <label htmlFor='password'>Password:&nbsp;
+                <OverlayTrigger
+                  placement="bottom"
+                  delay={{ show: 250, hide: 400 }}
+                  overlay={renderTooltip}
+                >
+                  <i className="fa-regular fa-circle-question" />
+                </OverlayTrigger>
+                &nbsp;
+              </label>
+              {!validity.password && <span className='text-danger'>Invalid Password!</span>}
               <input type="password" name='password' onChange={e => setData(e)} value={userData.password} id='password' placeholder='Your password' className='form-control mb-3 rounded-5' />
-              <label htmlFor='password2'>Re-enter password: </label> {validity.password && !validity.password2 && <span className='text-danger'>Passwords do not match!</span>}
+              <label htmlFor='password2'>Re-enter password: </label> {validity.password && !validity.password2 && <span className='text-danger'>Mismatch!</span>}
               <input type="password" name='password2' onChange={e => setData(e)} value={userData.password2} id='password2' placeholder='Re-enter your password' className='form-control mb-3 rounded-5' />
             </div>
             <div className='d-flex justify-content-between py-4'>
               <Link to='/'><Button variant='info' className='serif-bold fs-5'>Back&nbsp;to&nbsp;home</Button></Link>
               <Button variant='success fs-5' className='serif-bold' disabled={!readyToSubmit}>Register</Button>
             </div>
-            <div className='d-flex align-items-center justify-content-center handwrite fs-3 pt-3 text-shadow'>Already a member? <div className='linkify p-0' style={{ scale: '0.8' }} > <Login/></div></div>
+            <div className='d-flex align-items-center justify-content-center handwrite fs-3 pt-3 text-shadow'>Already a member? <div className='linkify p-0' style={{ scale: '0.8' }} > <Login /></div></div>
           </Col>
-         
         </Row>
       </Container>
 
