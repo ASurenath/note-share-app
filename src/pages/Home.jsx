@@ -42,7 +42,7 @@ function Home() {
 
              <Col md={6} className='d-flex justify-content-around align-items-center pt-5'>
 
-            <Link to='/browse'>
+            <Link to='/dashboard'>
               <Button variant='danger'>
                 <h3 className='serif-bold'>Manage&nbsp;your&nbsp;notes</h3>
               </Button>
