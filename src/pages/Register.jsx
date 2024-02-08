@@ -2,41 +2,47 @@ import React, { useEffect, useState } from 'react'
 import { Button, Col, Container, OverlayTrigger, Row, Tooltip } from 'react-bootstrap';
 import signup from '../assets/signup.svg'
 import Login from '../components/Login';
-import { Link } from 'react-router-dom';
-
-
-
+import { Link, useNavigate } from 'react-router-dom';
+import { registerApi } from '../apiServices/allApis';
+import { useDispatch } from 'react-redux';
+import { switchUpdate } from '../Redux/Slices/updateSlice';
+// ____________________________________________________________
 
 function Register() {
+  // _______________________________________________________Hooks_____
   const [userData, setUserData] = useState({
-    name: "", email: "", password: "", password2: ""
+    uname: "", email: "", password: "", password2: ""
   })
   const [validity, setValidity] = useState({
-    name: true, email: true, password: true, password2: true
+    uname: true, email: true, password: true, password2: true
   })
   const [readyToSubmit, setReadyToSubmit] = useState(false)
+  const navigate=useNavigate()
+  const dispatch=useDispatch()
 
   useEffect(() => {
-    if (userData.name != "" && userData.email != "" && userData.password != "" && userData.password2 != ""
-      && validity.name && validity.email && validity.password && validity.password2) {
+    if (userData.uname != "" && userData.email != "" && userData.password != "" && userData.password2 != ""
+      && validity.uname && validity.email && validity.password && validity.password2) {
       setReadyToSubmit(true)
     }
     else {
       setReadyToSubmit(false)
     }
   }, [userData, validity])
+  // _____________________________________________________Functions_______
   // const clearData=()=>{
   //   setUserData({
-  //     name: "", email: "", password: "", password2: ""
+  //     uname: "", email: "", password: "", password2: ""
   //   })
   // }
 
   console.log(userData);
   console.log(validity);
+  // -_____________________________________________________setData_____
   const setData = (e) => {
     const { name, value } = e.target
     setUserData({ ...userData, [name]: value })
-    if (name == 'name') {
+    if (name == 'uname') {
       if (value.match(/^[a-zA-Z ]+$/)) {
         setValidity({ ...validity, [name]: true })
       }
@@ -75,6 +81,32 @@ function Register() {
       }
     }
   }
+  // -_____________________________________________________HandleRegister_____
+  const handleRegister=async()=>{
+    try{
+      const result= await registerApi(userData)
+    if(result.status==200){
+      console.log(result);
+      sessionStorage.setItem('token',result.data.token)
+      sessionStorage.setItem('uname',result.data.user.uname)
+      // sessionStorage.setItem('email',result.data.user.email)
+      // sessionStorage.setItem('interests',result.data.user.interests)
+      // sessionStorage.setItem('bio',result.data.user.bio)
+      // sessionStorage.setItem('profilePic',result.data.user.profilePic)
+      alert(`Welcome ${userData.uname}.You have successfully registered`)
+      navigate('/')
+      dispatch(switchUpdate())
+    }
+    else{
+      alert(result.response.data)
+    }}
+    catch(err){
+      alert('Something went wrong. Please try later')
+      console.log(err);
+    }
+  }
+    // -________________________________________________________tooltip
+
   const renderTooltip = (props) => (
     <Tooltip id="button-tooltip" {...props}>
         Password should<br /> have
@@ -86,6 +118,7 @@ function Register() {
         </ul>
     </Tooltip>
 );
+// ________________________________________________________________RETURN
   return (
     <div className='page notebook bg-secondary d-flex flex-column justify-content-center align-items-center text-center pb-5'>
       <h1 className='serif-bold text-center text-white'>Register for <span className='text-warning serif-bold'>free!</span></h1>
@@ -96,8 +129,8 @@ function Register() {
           </Col>
           <Col lg={6} className='px-5'>
             <div className=' register-form  text-shadow fs-4'>
-              <label htmlFor='name'>Name: </label> {!validity.name && <span className='text-danger'>Invalid name!</span>}
-              <input type="text" name='name' onChange={e => setData(e)} value={userData.name} id='name' placeholder='Your name' className='form-control mb-3 rounded-5' />
+              <label htmlFor='uname'>Name: </label> {!validity.uname && <span className='text-danger'>Invalid name!</span>}
+              <input type="text" name='uname' onChange={e => setData(e)} value={userData.uname} id='uname' placeholder='Your name' className='form-control mb-3 rounded-5' />
               <label htmlFor='email'>Email: </label> {!validity.email && <span className='text-danger'>Invalid Email!</span>}
               <input type="email" name='email' onChange={e => setData(e)} value={userData.email} id='email' placeholder='Your E-mail ID' className='form-control mb-3 rounded-5' />
               <label htmlFor='password'>Password:&nbsp;
@@ -117,17 +150,12 @@ function Register() {
             </div>
             <div className='d-flex justify-content-between py-4'>
               <Link to='/'><Button variant='info' className='serif-bold fs-5'>Back&nbsp;to&nbsp;home</Button></Link>
-              <Button variant='success fs-5' className='serif-bold' disabled={!readyToSubmit}>Register</Button>
+              <Button onClick={handleRegister} disabled={!readyToSubmit} variant='success fs-5' className='serif-bold' >Register</Button>
             </div>
             <div className='d-flex align-items-center justify-content-center handwrite fs-3 pt-3 text-shadow'>Already a member? <div className='linkify p-0' style={{ scale: '0.8' }} > <Login /></div></div>
           </Col>
         </Row>
       </Container>
-
-
-
-
-
     </div>
   )
 }

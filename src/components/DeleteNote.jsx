@@ -1,25 +1,34 @@
 import React, { useState } from 'react'
 import { Button, Modal } from 'react-bootstrap'
+import { deleteNoteApi } from '../apiServices/allApis';
 
 
-function DeleteNote() {
+function DeleteNote({ note, noteUpdate, setNoteUpdate }) {
   const [show, setShow] = useState(false);
 
-  const createNote = () => {
-    if (!title) {
-      alert('Please enter a title')
+  const handleDelete = async () => {
+    const token = sessionStorage.getItem('token')
+    try {
+        const reqHeader = {
+            "Content-Type": "Application/json",
+            "Authorization": `Bearer ${token}`
+        }
+        const result = await deleteNoteApi({ _id: note['_id'] }, reqHeader)
+        if (result.status == 200) {
+            console.log(result.data);
+            console.log("successfully deleted");
+            setNoteUpdate(!noteUpdate)
+            handleClose()
+        }
     }
-    else {
-      handleClose()
-      alert('New Document Added!')
+    catch (err) {
+        console.log(err);
     }
-  }
+}
   const handleOpen = () => setShow(true);
   const handleClose = () => {
     setShow(false);
-    setTitle('')
   }
-  const [title, setTitle] = useState('')
   return (
     <div>
       <Button onClick={handleOpen} variant='primary' className='normal-bold rounded-4'>
@@ -35,7 +44,7 @@ function DeleteNote() {
       >
         <Modal.Header>
           <Modal.Title className='text-center' id="example-custom-modal">
-            <p>Are you sure that you want to delete 'Note title'?</p>
+            <p>Are you sure that you want to delete '{note?.title}'?</p>
             <p className='text-danger fw-bold fs-2'>This can't be undone!</p>
           </Modal.Title>
           <Button  onClick={handleClose} variant='primary' className='ms-auto'><i className='fa-solid fa-x'/></Button>
@@ -43,7 +52,7 @@ function DeleteNote() {
         <Modal.Body>
           <div className='d-flex justify-content-evenly'>
           <Button onClick={handleClose} variant='success'>No,&nbsp;cancel</Button>
-            <Button onClick={handleClose} variant='primary'>Yes,&nbsp;Please delete</Button>
+            <Button onClick={handleDelete} variant='primary'>Yes,&nbsp;Please delete</Button>
           </div>
         </Modal.Body>
       </Modal>

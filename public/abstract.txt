@@ -1,0 +1,13 @@
+It's a note-sharing app where a registered user can view all notes, add notes to favourites, create new notes, and manage (edit & delete) notes they have created. A registered user can also update their profile details (name, interests, and bio) and add a profile picture. Users also have the option to change their password or delete their account.
+
+A non-registered user can access the 'Home' and 'Register' pages, while a registered user can access 'Home,' 'Browse,' and 'Dashboard.'
+ 'Browse' is a page where users can view notes from all users. This page includes a search bar and a toggle button to switch between 'All notes' and 'Favourites.'
+
+'Dashboard' is further divided into two parts using the Tab component from React-Bootstrap: 'manage notes' and 'profile.' Under the 'manage notes' section, users can view, edit, or delete notes created by them. The 'Profile' section gives options to view and update the profile, delete the account, and change the password.
+
+These pages include other React components such as 'AddNote,' 'ChangePassword,' 'DeleteNote,' 'DeleteUser,' 'EditNote,' 'EditProfile,' 'Login,' and 'Note.' All these components open into a 'modal,' except 'Login,' which uses 'off-canvas.' 
+'Header' and 'Footer' are two common components on all pages. The header of a logged-in user has additional buttons for easy navigation.
+
+The frontend is created with React and styled using React-Bootstrap and some custom CSS. Editing and displaying notes are implemented using React-Quill.
+
+The backend will be implemented using NodeJS with MongoDB as the database. The database will have two collections: 'notes' and 'users.' The 'notes' collection will have fields for title, content, author, and creation time, while the 'users' collection will have name, email (unique), password, profile picture, interests, bio, and favorite notes.

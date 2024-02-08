@@ -4,6 +4,7 @@ import Modal from 'react-bootstrap/Modal';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import EditorToolbar, { modules, formats } from "./Quill/EditorToolbar";
+import { editNoteApi } from '../apiServices/allApis';
 
 
 
@@ -25,32 +26,38 @@ const style = {
     p: 5,
     py: 2,
 };
-function EditNote({ data }) {
+function EditNote({ note, noteUpdate, setNoteUpdate }) {
     const [show, setShow] = useState(false);
-    const [value, setValue] = useState(`<h1>Sample Text</h1>
-    <p>Lorem ipsum dolor sit <b>amet consectetur</b> adipisicing elit.</p>
-    <h2>Sub heading </h2>
-    <p>
-    Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur iste itaque dicta facere nihil, provident accusantium minima explicabo vero tempora voluptate rem magnam sunt, consequatur architecto fuga. Explicabo, cum dignissimos.
-</p>
-<ul>
-    <li>List item 1</li>
-    <li>List item 2</li>
-    <li>List item 3</li>
-</ul>`);
+    const [value, setValue] = useState(note.content);
     const [saved, setSaved] = useState(value)
 
-    console.log('value',value);
-    console.log('saved',saved);
-    console.log(value==saved);
-    const handleClose=()=>{
+    // console.log('value', value);
+    // console.log('saved', saved);
+    // console.log(value == saved);
+    const handleClose = () => {
         setShow(false)
     }
-    const handleOpen=()=>{
+    const handleOpen = () => {
         setShow(true)
     }
-    const handleSave=()=>{
-        setSaved(value)
+    const handleSave = async () => {
+        const token = sessionStorage.getItem('token')
+        try {
+            const reqHeader = {
+                "Content-Type": "Application/json",
+                "Authorization": `Bearer ${token}`
+            }
+            const result = await editNoteApi({ _id: note['_id'], content: value }, reqHeader)
+            if (result.status == 200) {
+                // console.log(result.data);
+                console.log("successfully saved");
+                setSaved(value)
+                setNoteUpdate(!noteUpdate)
+            }
+        }
+        catch (err) {
+            console.log(err);
+        }
     }
     return (
         <>
@@ -65,15 +72,15 @@ function EditNote({ data }) {
                 aria-labelledby="example-custom-modal-styling-title"
                 centered
             >
-                <Modal.Header  className='d-flex'>
+                <Modal.Header className='d-flex'>
                     <Modal.Title id="example-custom-modal-styling-title">
                         Note title
                     </Modal.Title>
                     <p className='ms-auto'></p>
                     <p className='ms-auto'></p>
                     <p className='ms-auto'></p>
-                    <Button disabled={(value==saved)} onClick={handleSave} variant='success' className='ms-auto'>Save</Button>
-                    <Button onClick={handleClose} variant='primary' className='ms-4'><i className="fa-solid fa-xmark"/></Button>
+                    <Button disabled={(value == saved)} onClick={handleSave} variant='success' className='ms-auto'>Save</Button>
+                    <Button onClick={handleClose} variant='primary' className='ms-4'><i className="fa-solid fa-xmark" /></Button>
 
                 </Modal.Header>
                 <Modal.Body>

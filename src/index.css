@@ -216,11 +216,17 @@ ul.hidden>li {
 .fav:hover {
   color: rgb(189, 45, 64);
 }
+.fav-selected {
+  color: rgb(189, 45, 64);
+  cursor: pointer;
+}
 
 .red {
   color: rgb(48, 0, 0);
 }
-
+.tab-pane{
+  width:100%;
+}
 
 /*###############___Quill Styless___################# */
 /* React quill */

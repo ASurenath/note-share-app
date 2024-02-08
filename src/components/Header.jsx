@@ -11,10 +11,11 @@ import { switchUpdate } from '../Redux/Slices/updateSlice'
 
 
 function Header({headerFor}) {
-  // const [headerFor,setHeaderFor]=useState(props.headerFor)
+// ___________________________________________________________HOOKS
   const [loginStatus, setLoginStatus] = useState(false)
   const update = useSelector(state => state.updateReducer)
   const [loggingOut, setLoggingOut] = useState(false)
+  const [uname,setUname]=useState('')
   const dispatch = useDispatch()
   const navigate = useNavigate()
   // useEffect(()=>{
@@ -25,23 +26,25 @@ function Header({headerFor}) {
     let token = sessionStorage.getItem("token")
     if (token) {
       setLoginStatus(true)
+      setUname(sessionStorage.getItem("uname"))
     }
     else {
       setLoginStatus(false)
     }
   }, [update])
-
+// _______________________________________________________________________FUNCTIONS
+// _______________________________________________________Logout
   const logout = () => {
     setLoggingOut(true)
     setTimeout(() => {
-      sessionStorage.removeItem("token")
+      sessionStorage.clear()
       setLoginStatus(false)
       dispatch(switchUpdate())
       setLoggingOut(false)
       navigate('/')
     }, 2000);
   }
-
+// _________________________________________________________________RETURN
   return (
     <Navbar expand="lg" className="margin-only bg-secondary text-dark w-100" style={{}}>
       <Container className='w-100'>
@@ -73,7 +76,7 @@ function Header({headerFor}) {
             {loginStatus ?
               <>
                 <div className='text-center'>
-                  <Link to={'/dashboard'} style={{ color: 'white' }}><i className="fa-regular fa-user"></i>&nbsp;: User</Link>
+                  <Link to={'/dashboard'} style={{ color: 'white' }}><i className="fa-regular fa-user"></i>&nbsp;: {uname}</Link>
                   <Button variant='danger' onClick={logout} style={{ scale: '0.75' }}>
                     <h3 className='serif-bold'>
                       {loggingOut ?

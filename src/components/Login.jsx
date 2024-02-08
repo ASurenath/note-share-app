@@ -5,10 +5,12 @@ import { Button } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { switchUpdate } from '../Redux/Slices/updateSlice';
+import { loginApi } from '../apiServices/allApis';
 
 
 
 function Login() {
+    // ________________________________________________________HOOKS
     const [show, setShow] = useState(false);
     const dispatch = useDispatch()
     const [loginData, setLoginData] = useState({
@@ -24,21 +26,34 @@ function Login() {
             setReadyToSubmit(false)
         }
     }, [loginData])
-
+    //// _______________________________________________________Functions
     const handleClose = () => {
         setShow(false)
         setLoginData({ email: "", password: "" })
     };
     const handleShow = () => setShow(true);
 
-    ///// DUMMY FUNCTIONS
-    const dummyLogin = () => {
-        handleClose()
-        sessionStorage.setItem("token", "dummyToken")
-        dispatch(switchUpdate())
-        navigate('/')
+    /////______________________________________________________ Login
+    const Login = async () => {
+        try {
+            const result = await loginApi(loginData)
+            if (result.status == 200) {
+                handleClose()
+                sessionStorage.setItem('token', result.data.token)
+                sessionStorage.setItem('uname', result.data.user.uname)
+                dispatch(switchUpdate())
+                navigate('/')
+            }
+            else {
+                alert(result.response.data)
+            }
+        }
+        catch (err) {
+            console.log(err);
+            alert('Something went wrong. Please try again later')
+        }
     }
-
+    // //____________________________________________________________Return
     return (
         <>
             <Button variant='success' onClick={handleShow}>
@@ -68,7 +83,7 @@ function Login() {
 
                     <div className='d-flex justify-content-evenly p-5'>
                         <Button onClick={handleClose} className='serif-bold fs-5'>Cancel</Button>
-                        <Button variant='success' disabled={!readyToSubmit} onClick={dummyLogin} className='serif-bold fs-5'>Log in</Button>
+                        <Button variant='success' disabled={!readyToSubmit} onClick={Login} className='serif-bold fs-5'>Log in</Button>
                     </div>
                     <div className='d-flex justify-content-center align-items-end handwrite fs-4'>
                         Not a member?&nbsp; <span onClick={handleClose}><Link to='/register'> Register</Link></span>

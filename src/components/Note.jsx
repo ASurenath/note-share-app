@@ -10,10 +10,8 @@ function Note({ data }) {
     return (
         <>
             <div onClick={() => setShow(true)} className=' note-card bg-white p-2 mx-5 mb-0' style={{ cursor: 'zoom-in', padding: 0, margin: 0 }}>
-                <div dangerouslySetInnerHTML={{ __html: data }} className='p-0 mt-0 mini'></div>
+                <div dangerouslySetInnerHTML={{ __html: data?.content }} className='p-0 mt-0 mini'></div>
             </div>
-
-
             <Modal
                 show={show}
                 onHide={() => setShow(false)}
@@ -23,16 +21,16 @@ function Note({ data }) {
             >
                 <Modal.Header>
                     <Modal.Title id="example-custom-modal-styling-title">
-                        Document title 
+                        {data.title}
                     </Modal.Title>
-                    <p className='ms-auto pt-1'>Author:  Name</p>
+                    <p className='ms-auto pt-1'>Author:{data.authorDetails[0].uname}</p>
                     <Button  onClick={()=>{setShow(false)}} variant='primary' className='ms-auto'><i className='fa-solid fa-x'/></Button>
                    
                 </Modal.Header>
                 <Modal.Body>
                     <div className='hide-toolbar'>
                         <ReactQuill
-                            value={data}
+                            value={data.content}
                             readOnly={true}
                             theme={"snow"}
                             style={{height:'75vh'}}
