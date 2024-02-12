@@ -118,7 +118,6 @@ ul.hidden>li {
 }
 
 .note-card {
-
   aspect-ratio: 1/1.414;
   overflow: hidden;
   border-radius: 20px;
@@ -189,15 +188,21 @@ ul.hidden>li {
 }
 
 .nav-link {
-  padding: 10px !important;
+  padding: 7px !important;
+  padding-left: 12px !important;
+  padding-right: 12px !important;
+
 }
 
 .controls-parent .controls {
   visibility: hidden;
+  opacity: 0%;
+  transition: 0.3s cubic-bezier(0.895, 0.03, 0.685, 0.22);
 }
 
 .controls-parent:hover .controls {
   visibility: visible;
+  opacity:100%;
 }
 
 .hide-toolbar .ql-toolbar {
@@ -212,7 +217,6 @@ ul.hidden>li {
   color: rgb(162, 161, 161);
   cursor: pointer;
 }
-
 .fav:hover {
   color: rgb(189, 45, 64);
 }
@@ -220,12 +224,68 @@ ul.hidden>li {
   color: rgb(189, 45, 64);
   cursor: pointer;
 }
+button.flush{
+border:none;
+outline:none;
+background:none;
+-webkit-transform: rotateY(0deg);
+transform: rotateY(0deg);
 
+}
+.flush:focus {
+  -webkit-animation: spin 2s ease-in-out backwards;
+          animation: spin 2s cubic-bezier(0.25, 0.46, 0.45, 0.94) backwards;
+}
+.flush:active {
+  -webkit-animation: none;
+          animation: none;
+}
+.note-title{
+  border:none;
+  min-width: fit-content;
+  width:50%;
+  /* font-family: 'Kalam', cursive; */
+  font-size: xx-large;
+  font-family: 'Gowun Batang', serif;
+  /* font-weight: 700; */
+}
+.note-title:focus{
+  font-family: 'Raleway', sans-serif;
+  /* font-weight: 400; */
+}
 .red {
   color: rgb(48, 0, 0);
 }
 .tab-pane{
   width:100%;
+}
+.avatar {
+  vertical-align: middle;
+  width: 100%;
+  max-width: 250px;
+  aspect-ratio: 1/1;
+  /* width: 50px;
+  height: 50px; */
+  border-radius: 50%;
+}
+.mini-avatar {
+  vertical-align: middle;
+  width: 100%;
+  max-width: 250px;
+  aspect-ratio: 1/1;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+@keyframes spin {
+  0% {
+    -webkit-transform: rotateY(0deg);
+            transform: rotateY(0deg);
+  }
+  100% {
+    -webkit-transform: rotateY(1080deg);
+            transform: rotateY(1080deg);
+  }
 }
 
 /*###############___Quill Styless___################# */

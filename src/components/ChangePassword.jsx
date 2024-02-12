@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Button, Modal } from 'react-bootstrap'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
+import { changePasswordApi } from '../apiServices/allApis';
 
 
 function ChangePassword() {
@@ -33,12 +34,12 @@ function ChangePassword() {
         setPasswords({ ...passwords, [name]: value })
         if (name == 'newPassword') {
             if (value.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{3,100}$/)) {
-                if(value==passwords.newPassword2){
-                    setValidity({...validity,[name]: true,newPassword2:true})
-                  }
-                  else{
-                    setValidity({...validity,[name]: true,newPassword2:false})
-                  }
+                if (value == passwords.newPassword2) {
+                    setValidity({ ...validity, [name]: true, newPassword2: true })
+                }
+                else {
+                    setValidity({ ...validity, [name]: true, newPassword2: false })
+                }
             }
             else {
                 setValidity({ ...validity, [name]: false })
@@ -51,6 +52,27 @@ function ChangePassword() {
             else {
                 setValidity({ ...validity, [name]: false })
             }
+        }
+    }
+    const handleSubmit = async () => {
+        const token = sessionStorage.getItem('token')
+        const reqHeader = {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+        }
+        try {
+            const result = await changePasswordApi(passwords, reqHeader)
+            if (result.status == 200) {
+                alert(`Passworde changed successfully`)
+                handleClose()
+            }
+            else {
+                console.log(result.response.data);
+            }
+        }
+        catch (err) {
+            console.log(err);
+            alert('Something went wrong. Please try again later')
         }
     }
 
@@ -101,13 +123,13 @@ function ChangePassword() {
                         </label>
                         <input id='password2' name='newPassword' type="password" onChange={e => setData(e)} className='form-control mb-3' placeholder='Enter your new password..' />
 
-                        {validity.newPassword&&!validity.newPassword2 && <><p></p><span className='text-danger'>Passwords should match</span></>}
+                        {validity.newPassword && !validity.newPassword2 && <><p></p><span className='text-danger'>Passwords should match</span></>}
                         <label htmlFor="password3">Re-enter new password:</label>
                         <input id='password3' name='newPassword2' type="password" onChange={e => setData(e)} className='form-control mb-3' placeholder='Re-enter your new password..' />
                     </div>
                     <div className='d-flex justify-content-evenly'>
                         <Button onClick={handleClose} variant='primary' className='serif-bold'>Cancel</Button>
-                        <Button onClick={handleClose} disabled={!readyToSubmit} variant='success' className='serif-bold'>Change</Button>
+                        <Button onClick={handleSubmit} disabled={!readyToSubmit} variant='success' className='serif-bold'>Change</Button>
                     </div>
                 </Modal.Body>
             </Modal>

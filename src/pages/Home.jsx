@@ -1,15 +1,14 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import notes from '../assets/notes.png'
 import { Button, Col, Row } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import Login from '../components/Login'
-import { useSelector } from 'react-redux'
+import { loginStatusContext } from '../Context/ContextShare'
 
 
 
 function Home() {
-  const update = useSelector(state => state.updateReducer)
-  const [loginStatus, setLoginStatus] = useState(false)
+  const {loginStatus, setLoginStatus} = useContext(loginStatusContext)
   useEffect(() => {
     let token=sessionStorage.getItem("token")
     if(token){
@@ -18,7 +17,7 @@ function Home() {
     else{
       setLoginStatus(false)
     }
-  }, [update])
+  }, [])
   
 
   return (
@@ -37,11 +36,9 @@ function Home() {
                 <h3 className='serif-bold'>Explore&nbsp;notes!</h3>
               </Button>
             </Link>
-          
           </Col>
 
              <Col md={6} className='d-flex justify-content-around align-items-center pt-5'>
-
             <Link to='/dashboard'>
               <Button variant='danger'>
                 <h3 className='serif-bold'>Manage&nbsp;your&nbsp;notes</h3>

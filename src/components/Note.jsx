@@ -3,9 +3,32 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import avatar from '../assets/avatar2.png'
+import { SERVER_URL } from '../apiServices/serverUrl';
+import { Col, OverlayTrigger, Row, Tooltip } from 'react-bootstrap';
+
+
 
 function Note({ data }) {
     const [show, setShow] = useState(false);
+    console.log(data);
+    const renderTooltip = (props) => (
+        <Tooltip id="author-tooltip" {...props}>
+            <Row className='p-2'>
+                <Col xs={4}>
+                    <img src={data?.authorDetails[0]?.profilePic?`${SERVER_URL}/uploads/${data.authorDetails[0].profilePic}`:avatar} alt="" className='mini-avatar'/>
+                </Col>
+                <Col xs={8} className='d-flex align-items-end'>
+                    <p className="handwrite fs-4">{data?.authorDetails[0]?.uname}</p>
+                </Col>
+                <br />
+                <p className="handwrite fs-6 text-left">Interests: {data?.authorDetails[0]?.interests}</p>
+                <br/>
+                    <p className="handwrite fs-6 text-left">Bio: {data?.authorDetails[0]?.bio}</p>
+
+            </Row>
+        </Tooltip>
+    );
 
     return (
         <>
@@ -20,12 +43,18 @@ function Note({ data }) {
                 centered
             >
                 <Modal.Header>
-                    <Modal.Title id="example-custom-modal-styling-title">
+                    <Modal.Title id="example-custom-modal-styling-title" className='serif-bold'>
                         {data.title}
                     </Modal.Title>
-                    <p className='ms-auto pt-1'>Author:{data.authorDetails[0].uname}</p>
-                    <Button  onClick={()=>{setShow(false)}} variant='primary' className='ms-auto'><i className='fa-solid fa-x'/></Button>
-                   
+                    <OverlayTrigger
+                        placement="bottom"
+                        delay={{ show: 250, hide: 400 }}
+                        overlay={renderTooltip} 
+                    >
+                        <p className='ms-auto pt-1 serif-bold'>Author: {data.authorDetails[0].uname}</p>
+                    </OverlayTrigger>
+                    <Button onClick={() => { setShow(false) }} variant='primary' className='ms-auto'><i className='fa-solid fa-x' /></Button>
+
                 </Modal.Header>
                 <Modal.Body>
                     <div className='hide-toolbar'>
@@ -33,7 +62,7 @@ function Note({ data }) {
                             value={data.content}
                             readOnly={true}
                             theme={"snow"}
-                            style={{height:'75vh'}}
+                            style={{ height: '75vh' }}
                         />
                     </div>
 

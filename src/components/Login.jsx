@@ -1,18 +1,17 @@
-import React, { useEffect } from 'react'
+import React, { useContext, useEffect } from 'react'
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import { useState } from 'react';
 import { Button } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { switchUpdate } from '../Redux/Slices/updateSlice';
 import { loginApi } from '../apiServices/allApis';
+import { loginStatusContext } from '../Context/ContextShare';
 
 
 
 function Login() {
     // ________________________________________________________HOOKS
     const [show, setShow] = useState(false);
-    const dispatch = useDispatch()
+    const { setLoginStatus} = useContext(loginStatusContext)
     const [loginData, setLoginData] = useState({
         email: "", password: ""
     })
@@ -41,8 +40,8 @@ function Login() {
                 handleClose()
                 sessionStorage.setItem('token', result.data.token)
                 sessionStorage.setItem('uname', result.data.user.uname)
-                dispatch(switchUpdate())
                 navigate('/')
+                setLoginStatus(true)
             }
             else {
                 alert(result.response.data)

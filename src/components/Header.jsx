@@ -1,22 +1,16 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Logo from '../assets/Logo.png'
 import { Button, ButtonGroup, Col, Container, Nav, Navbar, Row, Spinner, ToggleButton, ToggleButtonGroup } from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom'
 import Login from './Login'
-import { useDispatch, useSelector } from 'react-redux'
-import { switchUpdate } from '../Redux/Slices/updateSlice'
-
-
-
+import { loginStatusContext } from '../Context/ContextShare'
 
 
 function Header({headerFor}) {
 // ___________________________________________________________HOOKS
-  const [loginStatus, setLoginStatus] = useState(false)
-  const update = useSelector(state => state.updateReducer)
+  const {loginStatus, setLoginStatus} = useContext(loginStatusContext)
   const [loggingOut, setLoggingOut] = useState(false)
   const [uname,setUname]=useState('')
-  const dispatch = useDispatch()
   const navigate = useNavigate()
   // useEffect(()=>{
   //   setHeaderFor(props.headerFor)
@@ -31,7 +25,7 @@ function Header({headerFor}) {
     else {
       setLoginStatus(false)
     }
-  }, [update])
+  }, [])
 // _______________________________________________________________________FUNCTIONS
 // _______________________________________________________Logout
   const logout = () => {
@@ -39,7 +33,6 @@ function Header({headerFor}) {
     setTimeout(() => {
       sessionStorage.clear()
       setLoginStatus(false)
-      dispatch(switchUpdate())
       setLoggingOut(false)
       navigate('/')
     }, 2000);
@@ -60,13 +53,13 @@ function Header({headerFor}) {
           {loginStatus &&
             <Nav className='me-lg-auto'>
               <div  name="navigation"  className='pt-3 text-center' >
-                <Button disabled={headerFor=='home'} onClick={() => {navigate('/')}} variant={'success'} style={{ borderRadius: '50px 0 0 50px' }} className='px-md-4'>
+                <Button disabled={headerFor=='home'} onClick={() => {navigate('/')}} variant={'success'} style={{ borderRadius: '10px 0 0 10px' }} className='px-md-4'>
                   <b>Home</b>
                 </Button>
                 <Button  disabled={headerFor=='browser'}  onClick={() => navigate('/browse')} variant={'success'} className='px-md-4'>
                   <b>Browse</b>
                 </Button>
-                <Button  disabled={headerFor=='dashboard'} onClick={() => navigate('/dashboard')} variant={'success'} style={{ borderRadius: '0 50px 50px 0' }} className='px-md-4'>
+                <Button  disabled={headerFor=='dashboard'} onClick={() => navigate('/dashboard')} variant={'success'} style={{ borderRadius: '0 10px 10px 0' }} className='px-md-4'>
                   <b>Dashboard</b>
                 </Button>
               </div>

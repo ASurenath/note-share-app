@@ -1,16 +1,45 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Button, Modal } from 'react-bootstrap'
+import { deleteUserApi } from '../apiServices/allApis';
+import { useNavigate } from 'react-router-dom';
+import { loginStatusContext } from '../Context/ContextShare';
 
 
 function DeleteUser() {
+  const { setLoginStatus} = useContext(loginStatusContext)
   const [show, setShow] = useState(false);
   const [password,setPassword]=useState('')
+  const navigate=useNavigate()
   const handleOpen = () => setShow(true);
   const handleClose = () => {
     setShow(false);
-    setTitle('')
+    setPassword('')
   }
-  const [title, setTitle] = useState('')
+  const handleSubmit = async () => {
+    const token = sessionStorage.getItem('token')
+    const reqHeader = {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+    }
+    try {
+        const result = await deleteUserApi({password}, reqHeader)
+        if (result.status == 200) {
+            alert(`Account Deleted successfully`)
+            setLoginStatus(false)
+            handleClose()
+            navigate('/')
+            sessionStorage.clear()
+        }
+        else {
+            console.log(result.response.data);
+        }
+    }
+    catch (err) {
+        console.log(err);
+        alert('Something went wrong. Please try again later')
+    }
+}
+
   return (
     <div>
       <Button onClick={handleOpen} className='serif-bold'>Delete account</Button>
@@ -33,7 +62,7 @@ function DeleteUser() {
             <input type="password" value={password} onChange={e=>setPassword(e.target.value)} className='form-control mb-3 text-center' placeholder='Enter your password...'/>
           <div className='d-flex justify-content-evenly'>
           <Button onClick={handleClose} variant='success' className='serif-bold'>No,&nbsp;cancel</Button>
-            <Button onClick={handleClose} variant='primary' className='serif-bold'>Yes,&nbsp;Please delete</Button>
+            <Button onClick={handleSubmit} variant='primary' className='serif-bold'>Yes,&nbsp;Please delete</Button>
           </div>
         </Modal.Body>
       </Modal>

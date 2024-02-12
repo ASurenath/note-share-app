@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup'
@@ -6,12 +6,17 @@ import ToggleButton from 'react-bootstrap/ToggleButton';
 import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup';
 import Note from '../components/Note';
 import { addToFavApi, getAllNotesApi, getUserDataApi, removeFromFavApi } from '../apiServices/allApis';
+import { noteUpdateContext } from '../Context/ContextShare';
 
 
 function Browse() {
+    const {noteUpdate}=useContext(noteUpdateContext)
     const [userId, setUserId] = useState('')
     const [fav, setFav] = useState(false)
     const [allNotes, setAllNotes] = useState([])
+    const [filteredNotes, setFilteredNotes] = useState([])
+    const [searchKey,setSearchKey]=useState('')
+    const [loaded,setLoaded]=useState(false)
     // useEffect(() => {
     //     setToken(sessionStorage.getItem('token'))
     // }, [])
@@ -25,11 +30,13 @@ function Browse() {
         const result = await getUserDataApi(reqHeader)
         if(result.status==200){
             setUserId(result.data._id)
-            console.log(result.data._id);
+            setLoaded(true)
+            // console.log(result.data._id);
         }
     }
-    console.log(userId);
+    // console.log(userId);
     useEffect(() => { GetUserId() }, [])
+    useEffect(()=>{setFilteredNotes(allNotes?.filter(i=>(i.title.includes(searchKey)||i.content.includes(searchKey))))},[allNotes,searchKey])
 
     const callGetAllNotes = async () => {
         const token = sessionStorage.getItem('token')
@@ -40,17 +47,18 @@ function Browse() {
         const result = await getAllNotesApi(reqHeader)
         setAllNotes(result.data)
     }
-    useEffect(() => { callGetAllNotes() }, [])
+    useEffect(() => { callGetAllNotes() }, [noteUpdate])
     console.log(allNotes);
-    const addOrRemoveFav=async(note)=>{
+    const addOrRemoveFav=async(e,note)=>{
+        e.style = 'transform: rotate(360deg)';
+
         const token = sessionStorage.getItem('token')
         const reqHeader = {
             "Content-Type": "application/json",
             "Authorization": `Bearer ${token}`
         }
         if(note?.favouriteOf.includes(userId)){
-            await removeFromFavApi({_id:note['_id']},reqHeader)
-            
+            await removeFromFavApi({_id:note['_id']},reqHeader)  
         }
         else{
             await addToFavApi({_id:note['_id']},reqHeader)
@@ -65,6 +73,8 @@ function Browse() {
                         <InputGroup className="mb-3 rounded-5 w-75">
                             <InputGroup.Text id="basic-addon1" style={{ borderRadius: '50px 0 0 50px' }} ><i className="fa-solid fa-magnifying-glass"></i></InputGroup.Text>
                             <Form.Control
+                            value={searchKey}
+                            onChange={e=>setSearchKey(e.target.value)}
                                 placeholder="Search..."
                                 aria-label="Search-box"
                                 aria-describedby="search-box"
@@ -85,12 +95,12 @@ function Browse() {
                 </Row>
                 <h2 className='text-center serif-bold text-white'>{fav ? <>Favourites</> : <>All Notes</>}</h2>
                 <Row className='py-4'>
-                    {allNotes?.length>0?allNotes.map((i, index) =>
+                    {loaded?filteredNotes?.length>0?filteredNotes.map((i, index) =>
                         <>
                             {(!fav||i.favouriteOf.includes(userId))&&
                                 <Col lg={3} md={4} sm={6} xs={12} key={index} className='px-1  py-4' style={{ position: 'relative' }}>
                                 <div className='d-flex justify-content-evenly' style={{ position: 'absolute', left: '20%', top: '10%', width: '100%', zIndex: '1' }}>
-                                    <h2 onClick={()=>addOrRemoveFav(i)} className='fav'> {i.favouriteOf.includes(userId)?<i className="fa-solid fa-heart fav-selected"/>:<i className="fa-solid fa-heart" />}</h2>
+                                    <button onClick={(e)=>addOrRemoveFav(e,i)} className='fav flush fs-2'> {i.favouriteOf.includes(userId)?<i className="fa-solid fa-heart fav-selected"/>:<i className="fa-solid fa-heart" />}</button>
                                 </div>
                                 <Note data={i} />
                                 <h3 className='m-1 p-1 text-white'>{i?.title}</h3>
@@ -98,6 +108,7 @@ function Browse() {
                         </>
                     ):
                     <div>No notes to display</div>
+                    :"Loading..."
                     }
                 </Row>
             </Container>

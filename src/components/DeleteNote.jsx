@@ -1,9 +1,12 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Button, Modal } from 'react-bootstrap'
 import { deleteNoteApi } from '../apiServices/allApis';
+import { noteUpdateContext } from '../Context/ContextShare';
 
 
-function DeleteNote({ note, noteUpdate, setNoteUpdate }) {
+function DeleteNote({ note }) {
+  const {noteUpdate,setNoteUpdate}=useContext(noteUpdateContext)
+
   const [show, setShow] = useState(false);
 
   const handleDelete = async () => {

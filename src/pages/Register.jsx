@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Button, Col, Container, OverlayTrigger, Row, Tooltip } from 'react-bootstrap';
 import signup from '../assets/signup.svg'
 import Login from '../components/Login';
 import { Link, useNavigate } from 'react-router-dom';
 import { registerApi } from '../apiServices/allApis';
-import { useDispatch } from 'react-redux';
-import { switchUpdate } from '../Redux/Slices/updateSlice';
+import { loginStatusContext } from '../Context/ContextShare';
 // ____________________________________________________________
 
 function Register() {
@@ -17,9 +16,8 @@ function Register() {
     uname: true, email: true, password: true, password2: true
   })
   const [readyToSubmit, setReadyToSubmit] = useState(false)
-  const navigate=useNavigate()
-  const dispatch=useDispatch()
-
+  const navigate = useNavigate()
+  const {loginStatus, setLoginStatus} = useContext(loginStatusContext)
   useEffect(() => {
     if (userData.uname != "" && userData.email != "" && userData.password != "" && userData.password2 != ""
       && validity.uname && validity.email && validity.password && validity.password2) {
@@ -60,11 +58,11 @@ function Register() {
     }
     else if (name == 'password') {
       if (value.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{3,100}$/)) {
-        if(value==userData.password2){
-          setValidity({...validity,[name]: true,password2:true})
+        if (value == userData.password2) {
+          setValidity({ ...validity, [name]: true, password2: true })
         }
-        else{
-          setValidity({...validity,[name]: true,password2:false})
+        else {
+          setValidity({ ...validity, [name]: true, password2: false })
         }
       }
       else {
@@ -82,43 +80,44 @@ function Register() {
     }
   }
   // -_____________________________________________________HandleRegister_____
-  const handleRegister=async()=>{
-    try{
-      const result= await registerApi(userData)
-    if(result.status==200){
-      console.log(result);
-      sessionStorage.setItem('token',result.data.token)
-      sessionStorage.setItem('uname',result.data.user.uname)
-      // sessionStorage.setItem('email',result.data.user.email)
-      // sessionStorage.setItem('interests',result.data.user.interests)
-      // sessionStorage.setItem('bio',result.data.user.bio)
-      // sessionStorage.setItem('profilePic',result.data.user.profilePic)
-      alert(`Welcome ${userData.uname}.You have successfully registered`)
-      navigate('/')
-      dispatch(switchUpdate())
+  const handleRegister = async () => {
+    try {
+      const result = await registerApi(userData)
+      if (result.status == 200) {
+        console.log(result);
+        sessionStorage.setItem('token', result.data.token)
+        sessionStorage.setItem('uname', result.data.user.uname)
+        // sessionStorage.setItem('email',result.data.user.email)
+        // sessionStorage.setItem('interests',result.data.user.interests)
+        // sessionStorage.setItem('bio',result.data.user.bio)
+        // sessionStorage.setItem('profilePic',result.data.user.profilePic)
+        alert(`Welcome ${userData.uname}.You have successfully registered`)
+        navigate('/')
+        setLoginStatus(true)
+      }
+      else {
+        alert(result.response.data)
+      }
     }
-    else{
-      alert(result.response.data)
-    }}
-    catch(err){
+    catch (err) {
       alert('Something went wrong. Please try later')
       console.log(err);
     }
   }
-    // -________________________________________________________tooltip
+  // -________________________________________________________tooltip
 
   const renderTooltip = (props) => (
     <Tooltip id="button-tooltip" {...props}>
-        Password should<br /> have
-        minimum
-        <ul className='text-start'>
-            <li>1 small letter</li>
-            <li>1 capital letter</li>
-            <li>1 number</li>
-        </ul>
+      Password should<br /> have
+      minimum
+      <ul className='text-start'>
+        <li>1 small letter</li>
+        <li>1 capital letter</li>
+        <li>1 number</li>
+      </ul>
     </Tooltip>
-);
-// ________________________________________________________________RETURN
+  );
+  // ________________________________________________________________RETURN
   return (
     <div className='page notebook bg-secondary d-flex flex-column justify-content-center align-items-center text-center pb-5'>
       <h1 className='serif-bold text-center text-white'>Register for <span className='text-warning serif-bold'>free!</span></h1>

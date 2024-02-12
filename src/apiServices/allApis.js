@@ -48,3 +48,18 @@ export const addToFavApi=async(reqBody,reqHeader)=>{
 export const removeFromFavApi=async(reqBody,reqHeader)=>{
     return await commonApi("PUT",`${SERVER_URL}/remove-fav`,reqBody,reqHeader)
 }
+
+//changePasswordApi
+export const changePasswordApi=async(reqBody,reqHeader)=>{
+    return await commonApi("PUT",`${SERVER_URL}/password`,reqBody,reqHeader)
+}
+
+//deleteUserAPI
+export const deleteUserApi=async(reqBody,reqHeader)=>{
+    return await commonApi("DELETE",`${SERVER_URL}/delete-user`,reqBody,reqHeader)
+}
+
+//updateUserAPI
+export const editUserApi=async(reqBody,reqHeader)=>{
+    return await commonApi("PUT",`${SERVER_URL}/user/edit`,reqBody,reqHeader)
+}

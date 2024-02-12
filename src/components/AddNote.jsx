@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Button, Modal } from 'react-bootstrap'
 import { addNoteApi } from '../apiServices/allApis';
+import { noteUpdateContext } from '../Context/ContextShare';
 
 
-function AddNote({noteUpdate,setNoteUpdate}) {
+function AddNote() {
   // //_______________________________________________________Hooks
+  const {noteUpdate,setNoteUpdate}=useContext(noteUpdateContext)
   const [show, setShow] = useState(false);
   const [title, setTitle] = useState('')
   const [token,setToken]=useState('')
@@ -43,8 +45,8 @@ function AddNote({noteUpdate,setNoteUpdate}) {
   }
   return (
     <div>
-      <Button variant='danger' className='mt-3 p-1' onClick={handleOpen}>
-        <h3 className='serif'>New&nbsp;note!</h3>
+      <Button variant='danger' className='mt-3 p-1 serif-bold' onClick={handleOpen}>
+        <h5 className='serif-bold'><i className="fa-solid fa-plus"/> New&nbsp;note</h5>
       </Button>
       <Modal
         size='small'
@@ -61,8 +63,8 @@ function AddNote({noteUpdate,setNoteUpdate}) {
         </Modal.Header>
         <Modal.Body>
           <div className='d-flex px-5 pb-5'>
-            <input type="text" className='form-control' placeholder='Title...' value={title} onChange={e => setTitle(e.target.value)} />
-            <Button onClick={handleCreateNote} disabled={!title} variant='success'>Create</Button>
+            <input type="text" className='form-control' placeholder='Title...' value={title} onChange={e => setTitle(e.target.value)} style={{borderRadius:'50px 0 0 50px'}}/>
+            <Button onClick={handleCreateNote} disabled={!title} variant='success' style={{borderRadius:'0 50px 50px 0'}}>Create</Button>
           </div>
         </Modal.Body>
       </Modal>
