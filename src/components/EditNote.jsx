@@ -35,7 +35,9 @@ function EditNote({ note }) {
 
 
     const handleClose = () => {
+        setNoteUpdate(!noteUpdate)
         setShow(false)
+
     }
     const handleOpen = () => {
         setShow(true)
@@ -43,6 +45,7 @@ function EditNote({ note }) {
         setValue(note.content)
     }
     const handleSave = async () => {
+        document.getElementById('save-button').innerHTML="<i class='fa-solid fa-spinner fa-spin-pulse'></i>"
         if (title) {
             const token = sessionStorage.getItem('token')
             try {
@@ -55,7 +58,7 @@ function EditNote({ note }) {
                     // console.log(result.data);
                     console.log("successfully saved");
                     setSaved(value)
-                    setNoteUpdate(!noteUpdate)
+                    
                 }
             }
             catch (err) {
@@ -66,6 +69,8 @@ function EditNote({ note }) {
             toast.warning("Title can not be empty")
             document.getElementById('notetitle').value = note.title
         }
+        document.getElementById('save-button').innerHTML="Save"
+
     }
     return (
         <>
@@ -86,7 +91,7 @@ function EditNote({ note }) {
                     <p className='ms-auto'></p>
                     <p className='ms-auto'></p>
                     <p className='ms-auto'></p>
-                    <Button disabled={(value == saved)} onClick={handleSave} variant='success' className='ms-auto'>Save</Button>
+                    <Button disabled={(value == saved)} onClick={handleSave} id='save-button' variant='success' className='ms-auto'>Save</Button>
                     <Button onClick={handleClose} variant='primary' className='ms-4'><i className="fa-solid fa-xmark" /></Button>
 
                 </Modal.Header>

@@ -82,23 +82,26 @@ function Register() {
   }
   // -_____________________________________________________HandleRegister_____
   const handleRegister = async () => {
+    const regToast=toast.loading("Please wait..")
     try {
       const result = await registerApi(userData)
       if (result.status == 200) {
         console.log(result);
         sessionStorage.setItem('token', result.data.token)
         sessionStorage.setItem('uname', result.data.user.uname)
-  
-        toast.success(`Welcome ${userData.uname}.You have successfully registered`)
+        toast.update(regToast, { render:`Welcome ${userData.uname}.You have successfully registered`, type: "success", isLoading: false,autoClose:true });
         navigate('/')
         setLoginStatus(true)
       }
       else {
-        toast.warning(result.response.data)
+        toast.update(regToast, { render:result.response.data, type: "warning", isLoading: false,autoClose:true });
+
       }
     }
     catch (err) {
-      toast.error('Something went wrong. Please try later')
+      toast.error()
+      toast.update(regToast, { render:'Something went wrong. Please try later', type: "error", isLoading: false,autoClose:true });
+
       console.log(err);
     }
   }
@@ -115,6 +118,12 @@ function Register() {
       </ul>
     </Tooltip>
   );
+  const handleKeypress = (e) => {
+    //it triggers by pressing the enter key
+    if (e.keyCode === 13) {
+      document.getElementById('register-button').click();
+    }
+  };
   // ________________________________________________________________RETURN
   return (
     <div className='page notebook bg-secondary d-flex flex-column justify-content-center align-items-center text-center pb-5'>
@@ -127,9 +136,9 @@ function Register() {
           <Col lg={6} className='px-5'>
             <div className=' register-form  text-shadow fs-4'>
               <label htmlFor='uname'>Name: </label> {!validity.uname && <span className='text-danger'>Invalid name!</span>}
-              <input type="text" name='uname' onChange={e => setData(e)} value={userData.uname} id='uname' placeholder='Your name' className='form-control mb-3 rounded-5' />
+              <input type="text" name='uname' onChange={e => setData(e)}onKeyDown={handleKeypress} value={userData.uname} id='uname' placeholder='Your name' className='form-control mb-3 rounded-5' />
               <label htmlFor='email'>Email: </label> {!validity.email && <span className='text-danger'>Invalid Email!</span>}
-              <input type="email" name='email' onChange={e => setData(e)} value={userData.email} id='email' placeholder='Your E-mail ID' className='form-control mb-3 rounded-5' />
+              <input type="email" name='email' onChange={e => setData(e)}onKeyDown={handleKeypress} value={userData.email} id='email' placeholder='Your E-mail ID' className='form-control mb-3 rounded-5' />
               <label htmlFor='password'>Password:&nbsp;
                 <OverlayTrigger
                   placement="bottom"
@@ -141,13 +150,13 @@ function Register() {
                 &nbsp;
               </label>
               {!validity.password && <span className='text-danger'>Invalid Password!</span>}
-              <input type="password" name='password' onChange={e => setData(e)} value={userData.password} id='password' placeholder='Your password' className='form-control mb-3 rounded-5' />
+              <input type="password" name='password' onChange={e => setData(e)} onKeyDown={handleKeypress} value={userData.password} id='password' placeholder='Your password' className='form-control mb-3 rounded-5' />
               <label htmlFor='password2'>Re-enter password: </label> {validity.password && !validity.password2 && <span className='text-danger'>Mismatch!</span>}
-              <input type="password" name='password2' onChange={e => setData(e)} value={userData.password2} id='password2' placeholder='Re-enter your password' className='form-control mb-3 rounded-5' />
+              <input type="password" name='password2' onChange={e => setData(e)} onKeyDown={handleKeypress} value={userData.password2} id='password2' placeholder='Re-enter your password' className='form-control mb-3 rounded-5' />
             </div>
             <div className='d-flex justify-content-between py-4'>
               <Link to='/'><Button variant='info' className='serif-bold fs-5'>Back&nbsp;to&nbsp;home</Button></Link>
-              <Button onClick={handleRegister} disabled={!readyToSubmit} variant='success fs-5' className='serif-bold' >Register</Button>
+              <Button onClick={handleRegister} disabled={!readyToSubmit} id='register-button' variant='success fs-5' className='serif-bold' >Register</Button>
             </div>
             <div className='d-flex align-items-center justify-content-center handwrite fs-3 pt-3 text-shadow'>Already a member? <div className='linkify p-0' style={{ scale: '0.8' }} > <Login /></div></div>
           </Col>

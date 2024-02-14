@@ -4,6 +4,7 @@ import avatar from '../assets/avatar.png'
 import { editUserApi } from '../apiServices/allApis';
 import { SERVER_URL } from '../apiServices/serverUrl';
 import { userUpdateContext } from '../Context/ContextShare';
+import { toast } from 'react-toastify';
 
 function EditProfile({ user }) {
     const {userUpdate,setUserUpdate}=useContext(userUpdateContext)
@@ -52,17 +53,29 @@ const handleSubmit=async()=>{
             "Content-Type": profileImage?"multipart/form-data":"Application/json",
             "Authorization": `Bearer ${token}`
         }
+        const updateToast=toast.loading('')
         const result = await editUserApi({ _id,uname,interests,bio,profilePic,profileImage }, reqHeader)
         if (result.status == 200) {
             console.log("successfully edited");
+            toast.update(updateToast, { render:`Saved`, type: "success", isLoading: false,autoClose:true });
             setUserUpdate(!userUpdate)
             handleClose()
+        }
+        else{
+            toast.update(updateToast, { render:`Something went wrong`, type: "warning", isLoading: false,autoClose:true });
         }
     }
     catch (err) {
         console.log(err);
+        toast.update(updateToast, { render:`Something went wrong`, type: "error", isLoading: false,autoClose:true });
     }
 }
+const handleKeypress = (e) => {
+    //it triggers by pressing the enter key
+    if (e.keyCode === 13) {
+      document.getElementById('submit-button').click();
+    }
+  };
     return (
         <div>
             <Button variant='success' className='mt-3 mx-1' onClick={handleOpen}>
@@ -95,13 +108,13 @@ const handleSubmit=async()=>{
                         <Col md={8}>
                             <div className='form-grid'>
                                 <label htmlFor='name1'>Name:</label>
-                                <input value={userData.uname} onChange={e => setUserData({ ...userData, uname: e.target.value })} id='name1' type="text " className='form-control mb-3' placeholder='Name' required />
+                                <input value={userData.uname} onChange={e => setUserData({ ...userData, uname: e.target.value })} id='name1' type="text " className='form-control mb-3' placeholder='Name' onKeyDown={handleKeypress} />
                                 <label htmlFor='email'>Email:</label>
                                 <input value={userData.email} id='email' type="text " className='form-control mb-3' placeholder='example@sample.com' disabled />
                                 <label htmlFor="interests">Topics interested in:&nbsp;</label>
-                                <input value={userData.interests} onChange={e => setUserData({ ...userData, interests: e.target.value })} id='interests' type="text " className='form-control mb-3' placeholder='eg: Coding, Calculus... ' />
+                                <input value={userData.interests} onChange={e => setUserData({ ...userData, interests: e.target.value })} id='interests' type="text " className='form-control mb-3' placeholder='eg: Coding, Calculus... ' onKeyDown={handleKeypress}/>
                                 <label htmlFor="bio">Bio:</label>
-                                <textarea value={userData.bio} onChange={e => setUserData({ ...userData, bio: e.target.value })} className='form-control' placeholder='Say something about you...' id='bio'></textarea>
+                                <textarea value={userData.bio} onChange={e => setUserData({ ...userData, bio: e.target.value })} className='form-control' placeholder='Say something about you...' id='bio' ></textarea>
                             </div>
                         </Col>
                     </Row>
@@ -110,7 +123,7 @@ const handleSubmit=async()=>{
                     <Button variant="primary" onClick={handleClose} className='serif-bold'>
                         Cancel
                     </Button>
-                    <Button variant="success" onClick={handleSubmit} disabled={!readyToSubmit} className='serif-bold'>Update</Button>
+                    <Button variant="success" onClick={handleSubmit} disabled={!readyToSubmit} id='submit-button' className='serif-bold'>Update</Button>
                 </Modal.Footer>
             </Modal>
         </div>

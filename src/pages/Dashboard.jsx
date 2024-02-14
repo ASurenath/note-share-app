@@ -25,7 +25,7 @@ function Dashboard() {
     const [myNotes, setMyNotes] = useState([])
     const [user, setUser] = useState({})
     const [preview, setPreview] = useState(avatar)
-    const [loaded, setLoaded] = useState(false)
+    const [loading,setLoading]=useState(true)
 
 
     useEffect(() => {
@@ -34,6 +34,7 @@ function Dashboard() {
     }, [user.profilePic])
 
     const GetMyNotes = async () => {
+        setLoading(true)        
         const token = sessionStorage.getItem('token')
         const reqHeader = {
             "Content-Type": "application/json",
@@ -42,7 +43,7 @@ function Dashboard() {
         const result = await getMyNotesApi(reqHeader)
         if (result.status == 200) {
             setMyNotes(result.data)
-            setLoaded(true)
+            setLoading(false)
         }
     }
     const GetMyProfile = async () => {
@@ -86,8 +87,8 @@ function Dashboard() {
                         </Row>
                         <Container fluid='sm'>
                             <Row className='py-4'>
-                                {loaded ? myNotes?.length > 0 ? myNotes.map((i, index) =>
-                                    <Col lg={3} md={4} sm={6} xs={12} key={index} className='controls-parent d-flex flex-column justify-content-center align-items-center' style={{ position: 'relative' }}>
+                                {!loading? myNotes?.length > 0 ? myNotes.map((i, index) =>
+                                    <Col lg={3} md={4} sm={6} xs={12} key={index} className='controls-parent d-flex flex-column  justify-content-start align-items-center' style={{ position: 'relative' }}>
                                         <div className='d-flex justify-content-evenly controls'>
                                             <EditNote note={i} />
                                             <DeleteNote note={i} />

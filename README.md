@@ -16,5 +16,5 @@ change dummy user in profile -done
 delete notes on account deletion -done
 footer -done
 add nice data
-submit forms with enter -
-optional - check toastify promise
+submit forms with enter -done (add project, login, edit profile,change password)
+optional - check toastify promise -done for 

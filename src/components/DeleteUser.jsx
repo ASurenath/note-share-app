@@ -22,22 +22,27 @@ function DeleteUser() {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${token}`
     }
+    const deleteToast=toast.loading("Please wait..")
     try {
         const result = await deleteUserApi({password}, reqHeader)
         if (result.status == 200) {
-            toast.info(`Account Deleted successfully`)
+            toast.update(deleteToast, { render:`Account Deleted successfully`, type: "info", isLoading: false,autoClose:true });
+
             setLoginStatus(false)
             handleClose()
             navigate('/')
             sessionStorage.clear()
         }
         else if (result.response.status == 404) {
-          toast.warning(result.response.data);
+          toast.update(deleteToast, { render:result.response.data, type: "warning", isLoading: false,autoClose:true });
+
+          
       }
     }
     catch (err) {
         console.log(err);
-        toast.error('Something went wrong. Please try again later')
+        toast.update(deleteToast, { render:'Something went wrong. Please try again later', type: "error", isLoading: false,autoClose:true });
+
     }
 }
 // // ______________________________________________________RETURN

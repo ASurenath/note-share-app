@@ -260,19 +260,6 @@ button.flush {
   border: none;
   outline: none;
   background: none;
-  -webkit-transform: rotateY(0deg);
-  transform: rotateY(0deg);
-
-}
-
-.flush:focus {
-  -webkit-animation: spin 2s ease-in-out backwards;
-  animation: spin 2s cubic-bezier(0.25, 0.46, 0.45, 0.94) backwards;
-}
-
-.flush:active {
-  -webkit-animation: none;
-  animation: none;
 }
 
 .note-title {

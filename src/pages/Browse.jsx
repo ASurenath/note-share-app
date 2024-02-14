@@ -10,53 +10,73 @@ import { noteUpdateContext } from '../Context/ContextShare';
 import noData from '../assets/no-data.png'
 
 function Browse() {
-    const {noteUpdate}=useContext(noteUpdateContext)
+    const { noteUpdate } = useContext(noteUpdateContext)
     const [userId, setUserId] = useState('')
     const [fav, setFav] = useState(false)
     const [allNotes, setAllNotes] = useState([])
-    const [searchKey,setSearchKey]=useState('')
-    const [loaded,setLoaded]=useState(false)
+    const [searchKey, setSearchKey] = useState('')
+    const [loading, setLoading] = useState(true)
 
     const GetUserId = async () => {
-        const token=sessionStorage.getItem('token')
+        const token = sessionStorage.getItem('token')
         const reqHeader = {
             "Content-Type": "application/json",
             "Authorization": `Bearer ${token}`
         }
-        const result = await getUserDataApi(reqHeader)
-        if(result.status==200){
-            setUserId(result.data._id)
-            setLoaded(true)
+        try {
+            const result = await getUserDataApi(reqHeader)
+            if (result.status == 200) {
+                setUserId(result.data._id)
+
+            }
+        } catch (err) {
+            console.log(err);
         }
     }
     useEffect(() => { GetUserId() }, [])
 
     const callGetAllNotes = async () => {
+        //  setLoading(true) 
         const token = sessionStorage.getItem('token')
         const reqHeader = {
             "Content-Type": "application/json",
             "Authorization": `Bearer ${token}`
         }
-        const result = await getAllNotesApi(reqHeader,searchKey)
-        setAllNotes(result.data)
+        try {
+            const result = await getAllNotesApi(reqHeader, searchKey)
+            if (result.status == 200) {
+                setAllNotes(result.data)
+                setLoading(false)
+            }
+        }
+        catch (err) {
+            console.log(err);
+        }
     }
-    useEffect(() => { callGetAllNotes() }, [noteUpdate,searchKey])
-    console.log(allNotes);
-    const addOrRemoveFav=async(e,note)=>{
-        e.style = 'transform: rotate(360deg)';
 
+    useEffect(() => {
+        setLoading(true)
+        callGetAllNotes()
+    }, [noteUpdate, searchKey])
+    console.log(allNotes);
+
+    const addOrRemoveFav = async (e, note,index) => {
+        document.getElementById(`fav${index}`).innerHTML="<i class='fa-solid fa-spinner fa-spin-pulse text-black'></i>"
         const token = sessionStorage.getItem('token')
         const reqHeader = {
             "Content-Type": "application/json",
             "Authorization": `Bearer ${token}`
         }
-        if(note?.favouriteOf.includes(userId)){
-            await removeFromFavApi({_id:note['_id']},reqHeader)  
+        if (note?.favouriteOf.includes(userId)) {
+            await removeFromFavApi({ _id: note['_id'] }, reqHeader)
         }
-        else{
-            await addToFavApi({_id:note['_id']},reqHeader)
+        else {
+            await addToFavApi({ _id: note['_id'] }, reqHeader)
         }
-        callGetAllNotes()
+        await callGetAllNotes()
+        document.getElementById(`fav${index}`).innerHTML="<i class='fa-solid fa-heart fs-1' />"
+
+        // document.getElementById(`fav${index}`).innerHTML="<span><i className='fa-solid fa-heart fs-1' /></span>"
     }
     // // ______________________________________________________RETURN
 
@@ -68,8 +88,8 @@ function Browse() {
                         <InputGroup className="mb-3 rounded-5 w-75">
                             <InputGroup.Text id="basic-addon1" style={{ borderRadius: '50px 0 0 50px' }} ><i className="fa-solid fa-magnifying-glass"></i></InputGroup.Text>
                             <Form.Control
-                            value={searchKey}
-                            onChange={e=>setSearchKey(e.target.value)}
+                                value={searchKey}
+                                onChange={e => setSearchKey(e.target.value)}
                                 placeholder="Search..."
                                 aria-label="Search-box"
                                 aria-describedby="search-box"
@@ -88,31 +108,31 @@ function Browse() {
                         </ToggleButtonGroup>
                     </Col>
                 </Row>
-                <h2 className='text-center serif-bold text-white'>{fav ? <>Favourites</> : searchKey?<>Search results for '{searchKey}'</>:<>All Notes</>}</h2>
+                <h2 className='text-center serif-bold text-white'>{fav ? <>Favourites</> : searchKey ? <>Search results for '{searchKey}'</> : <>All Notes</>}</h2>
                 <Row className='py-4'>
-                    {loaded?allNotes?.length>0?allNotes.map((i, index) =>
+                    {!loading ? allNotes?.length > 0 ? allNotes.map((i, index) =>
                         <>
-                            {(!fav||i.favouriteOf.includes(userId))&&
-                                <Col lg={3} md={4} sm={6} xs={12} key={index} className='px-3 py-4 d-flex flex-column align-items-center' style={{ position: 'relative'}}>
-                                <div className='d-flex justify-content-evenly' style={{ position: 'absolute', left: '50%', top: '10%', width: '100%',maxWidth:'170px', zIndex: '1' }}>
-                                    <button onClick={(e)=>addOrRemoveFav(e,i)} className='fav flush fs-2'> {i.favouriteOf.includes(userId)?<i className="fa-solid fa-heart fav-selected fs-1"/>:<i className="fa-solid fa-heart fs-1" />}</button>
-                                </div>
-                                <Note data={i} />
-                                <h3 className='text-white'>{i?.title}</h3>
-                            </Col>}
+                            {(!fav || i.favouriteOf.includes(userId)) &&
+                                <Col lg={3} md={4} sm={6} xs={12} key={index} className='px-3 py-4 d-flex flex-column align-items-center justify-content-start' style={{ position: 'relative' }}>
+                                    <div className='d-flex justify-content-evenly' style={{ position: 'absolute', left: '50%', top: '10%', width: '100%', maxWidth: '170px', zIndex: '1' }}>
+                                        <button onClick={(e) => addOrRemoveFav(e, i,index)} className={i.favouriteOf.includes(userId) ?'flush fs-2 fav-selected':'flush fs-2 fav'} id={`fav${index}`}>  <i className="fa-solid fa-heart fs-1" /> </button>
+                                    </div>
+                                    <Note data={i} />
+                                    <h3 className='text-white'>{i?.title}</h3>
+                                </Col>}
                         </>
-                    ):
-                    <div className='d-flex flex-column justify-content-center align-items-center'> 
-                    <h1 className='handwrite text-white'>No notes to display!</h1>
-                    <img src={noData} alt="No data" className='img-fluid'/>
-                    </div>
-                    :<div className='d-flex justify-content-center align-items-center'>      
-                    <Spinner animation="grow" variant="primary" />
-                    <Spinner animation="grow" variant="success" />
-                    <Spinner animation="grow" variant="danger" />
-                    <Spinner animation="grow" variant="warning" />
-                    <Spinner animation="grow" variant="info" />
-                    </div>
+                    ) :
+                        <div className='d-flex flex-column justify-content-center align-items-center'>
+                            <h1 className='handwrite text-white'>No notes to display!</h1>
+                            <img src={noData} alt="No data" className='img-fluid' />
+                        </div>
+                        : <div className='d-flex justify-content-center align-items-center'>
+                            <Spinner animation="grow" variant="primary" />
+                            <Spinner animation="grow" variant="success" />
+                            <Spinner animation="grow" variant="danger" />
+                            <Spinner animation="grow" variant="warning" />
+                            <Spinner animation="grow" variant="info" />
+                        </div>
                     }
                 </Row>
             </Container>

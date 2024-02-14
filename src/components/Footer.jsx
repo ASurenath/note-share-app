@@ -61,8 +61,8 @@ function Footer() {
             </Navbar>
             <ToastContainer
                 position="top-right"
-                autoClose={2000}
-                hideProgressBar={false}
+                autoClose={1500}
+                hideProgressBar={true}
                 newestOnTop={false}
                 closeOnClick
                 rtl={false}

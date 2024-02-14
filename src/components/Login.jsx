@@ -35,9 +35,11 @@ function Login() {
 
     /////______________________________________________________ Login
     const Login = async () => {
+        const loginToast = toast.loading("Please wait...")
         try {
             const result = await loginApi(loginData)
             if (result.status == 200) {
+                toast.update(loginToast, { render:"Logged in.", type: "success", isLoading: false,autoClose:true });
                 handleClose()
                 sessionStorage.setItem('token', result.data.token)
                 sessionStorage.setItem('uname', result.data.user.uname)
@@ -45,14 +47,21 @@ function Login() {
                 setLoginStatus(true)
             }
             else if (result.response.status == 404) {
-                toast.warning(result.response.data);
+                // toast.warning(result.response.data);
+                toast.update(loginToast, { render: result?.response?.data, type: "warning", isLoading: false,autoClose:true });
             }
         }
         catch (err) {
             console.log(err);
-            toast.error('Something went wrong. Please try again later')
+            toast.update(loginToast, { render:'Something went wrong. Please try again later', type: "error", isLoading: false,autoClose:true });
         }
     }
+    const handleKeypress = (e) => {
+        //it triggers by pressing the enter key
+        if (e.keyCode === 13) {
+          document.getElementById('login-button').click();
+        }
+      };
     // //____________________________________________________________Return
     return (
         <>
@@ -74,16 +83,16 @@ function Login() {
                     <div className='form-grid normal p-2'>
 
                         <label htmlFor='email'>Email: </label>
-                        <input type="email" onChange={e => setLoginData({ ...loginData, email: e.target.value })} value={loginData.email} id='email' placeholder='Your email-id' className='form-control my-2 rounded-5' />
+                        <input type="email" onChange={e => setLoginData({ ...loginData, email: e.target.value })} value={loginData.email} id='email' onKeyDown={handleKeypress} placeholder='Your email-id' className='form-control my-2 rounded-5' />
                         <label htmlFor='password'>Password: </label>
-                        <input type="password" onChange={e => setLoginData({ ...loginData, password: e.target.value })} value={loginData.password} id='password' placeholder='Your password' className='form-control my-2 rounded-5' />
+                        <input type="password" onChange={e => setLoginData({ ...loginData, password: e.target.value })} value={loginData.password} id='password' onKeyDown={handleKeypress} placeholder='Your password' className='form-control my-2 rounded-5' />
 
 
                     </div>
 
                     <div className='d-flex justify-content-evenly p-5'>
                         <Button onClick={handleClose} className='serif-bold fs-5'>Cancel</Button>
-                        <Button variant='success' disabled={!readyToSubmit} onClick={Login} className='serif-bold fs-5'>Log in</Button>
+                        <Button variant='success' disabled={!readyToSubmit} onClick={Login} id='login-button' className='serif-bold fs-5'>Log in</Button>
                     </div>
                     <div className='d-flex justify-content-center align-items-end handwrite fs-4'>
                         Not a member?&nbsp; <span onClick={handleClose}><Link to='/register'> Register</Link></span>

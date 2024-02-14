@@ -23,6 +23,7 @@ function AddNote() {
   }
   //////______________________________________________handle create note (with API call)
   const handleCreateNote = async () => {
+    document.getElementById('add-button').innerHTML="<i class='fa-solid fa-spinner fa-spin-pulse'></i>"
     console.log("inside handleCreateNote");
     const reqHeader = {
       "Content-Type": "application/json",
@@ -43,7 +44,14 @@ function AddNote() {
       console.log(err);
       toast.error('Something went wrong. Please try again later')
     }
+    document.getElementById('add-button').innerHTML="Create"
   }
+  const handleKeypress = (e) => {
+    //it triggers by pressing the enter key
+    if (e.keyCode === 13) {
+      document.getElementById('add-button').click();
+    }
+  };
   // __________________________________________________________________RETURN
   return (
     <div>
@@ -65,8 +73,8 @@ function AddNote() {
         </Modal.Header>
         <Modal.Body>
           <div className='d-flex px-5 pb-5'>
-            <input type="text" className='form-control' placeholder='Title...' value={title} onChange={e => setTitle(e.target.value)} style={{borderRadius:'50px 0 0 50px'}}/>
-            <Button onClick={handleCreateNote} disabled={!title} variant='success' style={{borderRadius:'0 50px 50px 0'}}>Create</Button>
+            <input type="text" className='form-control' placeholder='Title...' value={title} onChange={e => setTitle(e.target.value)} onKeyDown={handleKeypress} style={{borderRadius:'50px 0 0 50px'}}/>
+            <Button onClick={handleCreateNote} disabled={!title} id='add-button' variant='success' style={{borderRadius:'0 50px 50px 0'}}>Create</Button>
           </div>
         </Modal.Body>
       </Modal>

@@ -61,19 +61,20 @@ function ChangePassword() {
             "Content-Type": "application/json",
             "Authorization": `Bearer ${token}`
         }
+        const changeToast = toast.loading("Please wait...")
         try {
             const result = await changePasswordApi(passwords, reqHeader)
             if (result.status == 200) {
-                toast.success(`Passworde changed successfully`)
+                toast.update(changeToast, { render:`Passworde changed successfully`, type: "success", isLoading: false,autoClose:true });
                 handleClose()
             }
             else if (result.response.status == 404) {
-                toast.warning(result.response.data);
+                toast.update(changeToast, { render:result.response.data, type: "warning", isLoading: false,autoClose:true });
             }
         }
         catch (err) {
             console.log(err);
-            toast.error('Something went wrong. Please try again')
+            toast.update(changeToast, { render:'Something went wrong. Please try again', type: "error", isLoading: false,autoClose:true });
         }
     }
 
@@ -89,7 +90,13 @@ function ChangePassword() {
         </Tooltip>
     );
 // // ______________________________________________________RETURN
-    return (
+const handleKeypress = (e) => {
+    //it triggers by pressing the enter key
+    if (e.keyCode === 13) {
+      document.getElementById('change-button').click();
+    }
+  };
+return (
         <div>
             <Button className='serif-bold' onClick={handleOpen}>Change password</Button>
 
@@ -110,7 +117,7 @@ function ChangePassword() {
                     <div className='form-grid pb-3'>
 
                         <label htmlFor='password1'>Current password:</label>
-                        <input id='password1' name='currentPassword' type="password" onChange={e => setData(e)} className='form-control mb-3' placeholder='Enter your current password..' />
+                        <input id='password1' name='currentPassword' type="password" onChange={e => setData(e)} onKeyDown={handleKeypress} className='form-control mb-3' placeholder='Enter your current password..' />
 
                         {!validity.newPassword && <><p></p><span className='text-danger'>Invalid password</span></>}
                         <label htmlFor='password2'>
@@ -122,15 +129,15 @@ function ChangePassword() {
                                 <i className="fa-regular fa-circle-question" />
                             </OverlayTrigger>
                         </label>
-                        <input id='password2' name='newPassword' type="password" onChange={e => setData(e)} className='form-control mb-3' placeholder='Enter your new password..' />
+                        <input id='password2' name='newPassword' type="password" onChange={e => setData(e)} onKeyDown={handleKeypress} className='form-control mb-3' placeholder='Enter your new password..' />
 
                         {validity.newPassword && !validity.newPassword2 && <><p></p><span className='text-danger'>Passwords should match</span></>}
                         <label htmlFor="password3">Re-enter new password:</label>
-                        <input id='password3' name='newPassword2' type="password" onChange={e => setData(e)} className='form-control mb-3' placeholder='Re-enter your new password..' />
+                        <input id='password3' name='newPassword2' type="password" onChange={e => setData(e)} onKeyDown={handleKeypress} className='form-control mb-3' placeholder='Re-enter your new password..' />
                     </div>
                     <div className='d-flex justify-content-evenly'>
                         <Button onClick={handleClose} variant='primary' className='serif-bold'>Cancel</Button>
-                        <Button onClick={handleSubmit} disabled={!readyToSubmit} variant='success' className='serif-bold'>Change</Button>
+                        <Button onClick={handleSubmit} disabled={!readyToSubmit} id='change-button' variant='success' className='serif-bold'>Change</Button>
                     </div>
                 </Modal.Body>
             </Modal>

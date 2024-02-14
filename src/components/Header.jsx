@@ -49,7 +49,7 @@ function Header({headerFor}) {
           </Navbar.Brand>
         </Link>
 
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Toggle aria-controls="basic-navbar-nav" className='text-primary'/>
         <Navbar.Collapse id="basic-navbar-nav-2" >
           {loginStatus &&
             <Nav className='me-lg-auto'>

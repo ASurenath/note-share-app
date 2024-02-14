@@ -10,6 +10,7 @@ function DeleteNote({ note }) {
   const [show, setShow] = useState(false);
 
   const handleDelete = async () => {
+    document.getElementById('delete-button').innerHTML="<i class='fa-solid fa-spinner fa-spin-pulse'></i>"
     const token = sessionStorage.getItem('token')
     try {
         const reqHeader = {
@@ -27,6 +28,8 @@ function DeleteNote({ note }) {
     catch (err) {
         console.log(err);
     }
+    document.getElementById('delete-button').innerHTML="Yes, please delete"
+
 }
   const handleOpen = () => setShow(true);
   const handleClose = () => {
@@ -57,7 +60,7 @@ function DeleteNote({ note }) {
         <Modal.Body>
           <div className='d-flex justify-content-evenly'>
           <Button onClick={handleClose} variant='success'>No,&nbsp;cancel</Button>
-            <Button onClick={handleDelete} variant='primary'>Yes,&nbsp;Please delete</Button>
+            <Button onClick={handleDelete} id='delete-button' variant='primary'>Yes,&nbsp;Please delete</Button>
           </div>
         </Modal.Body>
       </Modal>
