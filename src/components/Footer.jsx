@@ -53,7 +53,7 @@ function Footer() {
                             <h4 className='px-5 text-white serif'>
                                 Contact Us
                             </h4>
-                            <textarea value={message} onChange={e => setMessage(e.target.value)} type="email" placeholder='Your feedbacks...' className='form-control rounded-5' />
+                            <textarea value={message} onChange={e => setMessage(e.target.value)} type="email" placeholder='Your feedbacks...' className='form-control rounded-5 text-center' />
                             <a href={`mailto:exapmle@exaple.com?subject=Feedback for NoteShare website&body=${message}`}><button className='btn btn-outline-dark mt-2'>Send an E-mail</button></a>
                         </Col>
                     </Row>
