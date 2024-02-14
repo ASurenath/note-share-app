@@ -27,6 +27,7 @@ function ChangePassword() {
     const handleClose = () => {
         setShow(false);
         setPasswords({ currentPassword: '', newPassword: '', newPassword2: '' })
+        setValidity({ newPassword: true, newPassword2: true })
     }
 
 
@@ -119,7 +120,7 @@ return (
                         <label htmlFor='password1'>Current password:</label>
                         <input id='password1' name='currentPassword' type="password" onChange={e => setData(e)} onKeyDown={handleKeypress} className='form-control mb-3' placeholder='Enter your current password..' />
 
-                        {!validity.newPassword && <><p></p><span className='text-danger'>Invalid password</span></>}
+                        {!validity.newPassword && <><p></p><p className='text-danger'>Invalid password</p></>}
                         <label htmlFor='password2'>
                             New password: &nbsp;
                             <OverlayTrigger

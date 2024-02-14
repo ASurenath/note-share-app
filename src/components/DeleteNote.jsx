@@ -19,7 +19,7 @@ function DeleteNote({ note }) {
         }
         const result = await deleteNoteApi({ _id: note['_id'] }, reqHeader)
         if (result.status == 200) {
-            console.log(result.data);
+            // console.log(result.data);
             console.log("successfully deleted");
             setNoteUpdate(!noteUpdate)
             handleClose()

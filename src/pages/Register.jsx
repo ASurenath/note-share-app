@@ -35,8 +35,8 @@ function Register() {
   //   })
   // }
 
-  console.log(userData);
-  console.log(validity);
+  // console.log(userData);
+  // console.log(validity);
   // -_____________________________________________________setData_____
   const setData = (e) => {
     const { name, value } = e.target
@@ -72,7 +72,6 @@ function Register() {
     }
     else if (name == 'password2') {
       if (value == userData.password) {
-        console.log(2);
         setValidity({ ...validity, [name]: true })
       }
       else {
@@ -86,10 +85,10 @@ function Register() {
     try {
       const result = await registerApi(userData)
       if (result.status == 200) {
-        console.log(result);
+        // console.log(result);
         sessionStorage.setItem('token', result.data.token)
         sessionStorage.setItem('uname', result.data.user.uname)
-        toast.update(regToast, { render:`Welcome ${userData.uname}.You have successfully registered`, type: "success", isLoading: false,autoClose:true });
+        toast.update(regToast, { render:`Welcome ${userData.uname}. You have successfully registered`, type: "success", isLoading: false,autoClose:true });
         navigate('/')
         setLoginStatus(true)
       }

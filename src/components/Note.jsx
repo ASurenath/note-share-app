@@ -11,7 +11,7 @@ import { Col, OverlayTrigger, Row, Tooltip } from 'react-bootstrap';
 
 function Note({ data }) {
     const [show, setShow] = useState(false);
-    console.log(data);
+    // console.log(data);
     const renderTooltip = (props) => (
         <Tooltip id="author-tooltip" {...props}>
             <Row className='p-2'>

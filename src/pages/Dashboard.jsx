@@ -60,7 +60,7 @@ function Dashboard() {
     useEffect(() => { GetMyNotes() }, [noteUpdate])
     useEffect(() => { GetMyProfile() }, [userUpdate])
 
-    console.log(user);
+    // console.log(user);
     // // ______________________________________________________RETURN
 
     return (

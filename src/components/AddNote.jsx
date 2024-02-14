@@ -24,7 +24,7 @@ function AddNote() {
   //////______________________________________________handle create note (with API call)
   const handleCreateNote = async () => {
     document.getElementById('add-button').innerHTML="<i class='fa-solid fa-spinner fa-spin-pulse'></i>"
-    console.log("inside handleCreateNote");
+    // console.log("inside handleCreateNote");
     const reqHeader = {
       "Content-Type": "application/json",
       "Authorization": `Bearer ${token}`

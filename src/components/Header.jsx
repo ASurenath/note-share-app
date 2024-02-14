@@ -16,7 +16,7 @@ function Header({headerFor}) {
   // useEffect(()=>{
   //   setHeaderFor(props.headerFor)
   // },[props.headerFor])
-  console.log(headerFor)
+  // console.log(headerFor)
   useEffect(() => {
     let token = sessionStorage.getItem("token")
     if (token) {

@@ -58,7 +58,7 @@ function Browse() {
         setLoading(true)
         callGetAllNotes()
     }, [noteUpdate, searchKey])
-    console.log(allNotes);
+    // console.log(allNotes);
 
     const addOrRemoveFav = async (e, note,index) => {
         document.getElementById(`fav${index}`).innerHTML="<i class='fa-solid fa-spinner fa-spin-pulse text-black'></i>"
