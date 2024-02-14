@@ -33,7 +33,16 @@ function Note({ data }) {
     return (
         <>
             <div onClick={() => setShow(true)} className=' note-card bg-white p-2 mx-5 mb-0' style={{ cursor: 'zoom-in', padding: 0, margin: 0 }}>
-                <div dangerouslySetInnerHTML={{ __html: data?.content }} className='p-0 mt-0 mini'></div>
+                {/* <div dangerouslySetInnerHTML={{ __html: data?.content }} className='p-0 mt-0 mini'></div> */}
+                <div className='hide-toolbar mini'>
+                        <ReactQuill
+                            value={data.content}
+                            readOnly={true}
+                            theme={"snow"}
+                            style={{ height: '75vh' }}
+                            scrollingContainer={'mini-quill'}
+                        />
+                    </div>
             </div>
             <Modal
                 show={show}

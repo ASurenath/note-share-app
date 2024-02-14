@@ -87,8 +87,8 @@ function Dashboard() {
                         <Container fluid='sm'>
                             <Row className='py-4'>
                                 {loaded ? myNotes?.length > 0 ? myNotes.map((i, index) =>
-                                    <Col lg={3} md={4} sm={6} xs={12} key={index} className='controls-parent px-1  py-4' style={{ position: 'relative' }}>
-                                        <div className='d-flex justify-content-evenly controls' style={{ position: 'absolute', left: 0, top: '10%', width: '100%', zIndex: '1' }}>
+                                    <Col lg={3} md={4} sm={6} xs={12} key={index} className='controls-parent d-flex flex-column justify-content-center align-items-center' style={{ position: 'relative' }}>
+                                        <div className='d-flex justify-content-evenly controls'>
                                             <EditNote note={i} />
                                             <DeleteNote note={i} />
                                         </div>

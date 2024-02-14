@@ -124,7 +124,8 @@ ul.hidden>li {
   border: 12px solid transparent;
   padding: 15px;
   border-image: url('./assets/border.png') 30 repeat;
-
+  width: 100%;
+  max-width: 170px;
 }
 
 .modal-90w {
@@ -138,26 +139,41 @@ ul.hidden>li {
   height: 100%;
 }
 
-.mini * {
-  scale: 0.5;
-  transform: translate(-50%, -50%);
-  padding: 0;
+/* .mini * {
+  scale: 0.8;
+  transform: translate(-5%, -5%);
   margin: 0;
-  word-spacing: 25%;
   white-space-collapse: collapse;
   line-height: 0.9;
-}
+} */
 
-.mini {
+/* .mini {
   padding: 30px;
   width: 200%;
   height: 200%;
-}
+  pointer-events: none;
+} */
 
-.mini p {
+/* .mini p,.mini h1,.mini ul,.mini ol .mini li{
   text-align: justify;
   padding: 0;
   margin: 0;
+} */
+/* .mini a {
+  color: blue;
+} */
+.mini .ql-editor {
+  overflow: hidden;
+  scale: 0.3;
+  width: 900px;
+  height: 1500px;
+  transform: translate(-1100px, -1700px);
+  pointer-events: none;
+  user-select: none;
+}
+
+.mini .ql-container {
+  border: none;
 }
 
 .nav-pills .nav-link {
@@ -204,7 +220,18 @@ ul.hidden>li {
 
 .controls-parent:hover .controls {
   visibility: visible;
-  opacity:100%;
+  opacity: 100%;
+}
+
+.controls {
+  position: absolute;
+  /* left: 0; */
+  top: 5%;
+  left: 50%;
+  transform: translate(-50%, 0);
+  width: 100%;
+  max-width: 170px;
+  z-index: 1;
 }
 
 .hide-toolbar .ql-toolbar {
@@ -219,48 +246,58 @@ ul.hidden>li {
   color: rgb(162, 161, 161);
   cursor: pointer;
 }
+
 .fav:hover {
   color: rgb(189, 45, 64);
 }
+
 .fav-selected {
   color: rgb(189, 45, 64);
   cursor: pointer;
 }
-button.flush{
-border:none;
-outline:none;
-background:none;
--webkit-transform: rotateY(0deg);
-transform: rotateY(0deg);
+
+button.flush {
+  border: none;
+  outline: none;
+  background: none;
+  -webkit-transform: rotateY(0deg);
+  transform: rotateY(0deg);
 
 }
+
 .flush:focus {
   -webkit-animation: spin 2s ease-in-out backwards;
-          animation: spin 2s cubic-bezier(0.25, 0.46, 0.45, 0.94) backwards;
+  animation: spin 2s cubic-bezier(0.25, 0.46, 0.45, 0.94) backwards;
 }
+
 .flush:active {
   -webkit-animation: none;
-          animation: none;
+  animation: none;
 }
-.note-title{
-  border:none;
+
+.note-title {
+  border: none;
   min-width: fit-content;
-  width:50%;
+  width: 50%;
   /* font-family: 'Kalam', cursive; */
   font-size: xx-large;
   font-family: 'Gowun Batang', serif;
   /* font-weight: 700; */
 }
-.note-title:focus{
+
+.note-title:focus {
   font-family: 'Raleway', sans-serif;
   /* font-weight: 400; */
 }
+
 .red {
   color: rgb(48, 0, 0);
 }
-.tab-pane{
-  width:100%;
+
+.tab-pane {
+  width: 100%;
 }
+
 .avatar {
   vertical-align: middle;
   width: 100%;
@@ -270,6 +307,7 @@ transform: rotateY(0deg);
   height: 50px; */
   border-radius: 50%;
 }
+
 .mini-avatar {
   vertical-align: middle;
   width: 100%;
@@ -279,14 +317,16 @@ transform: rotateY(0deg);
   height: 50px;
   border-radius: 50%;
 }
+
 @keyframes spin {
   0% {
     -webkit-transform: rotateY(0deg);
-            transform: rotateY(0deg);
+    transform: rotateY(0deg);
   }
+
   100% {
     -webkit-transform: rotateY(1080deg);
-            transform: rotateY(1080deg);
+    transform: rotateY(1080deg);
   }
 }
 
@@ -351,9 +391,9 @@ transform: rotateY(0deg);
     font-size: 1rem;
   }
 
-  .fav i {
-    font-size: 3em !important;
-  }
+  /* .fav i {
+    font-size: 10px ;
+  } */
 
   label {
     font-size: 1rem;
@@ -363,7 +403,7 @@ transform: rotateY(0deg);
     font-size: 3em;
   }
 
-  
+
   h4 {
     font-size: 1.5em;
   }

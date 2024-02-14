@@ -93,12 +93,12 @@ function Browse() {
                     {loaded?allNotes?.length>0?allNotes.map((i, index) =>
                         <>
                             {(!fav||i.favouriteOf.includes(userId))&&
-                                <Col lg={3} md={4} sm={6} xs={12} key={index} className='px-1  py-4' style={{ position: 'relative' }}>
-                                <div className='d-flex justify-content-evenly' style={{ position: 'absolute', left: '20%', top: '10%', width: '100%', zIndex: '1' }}>
-                                    <button onClick={(e)=>addOrRemoveFav(e,i)} className='fav flush fs-2'> {i.favouriteOf.includes(userId)?<i className="fa-solid fa-heart fav-selected"/>:<i className="fa-solid fa-heart" />}</button>
+                                <Col lg={3} md={4} sm={6} xs={12} key={index} className='px-3 py-4 d-flex flex-column align-items-center' style={{ position: 'relative'}}>
+                                <div className='d-flex justify-content-evenly' style={{ position: 'absolute', left: '50%', top: '10%', width: '100%',maxWidth:'170px', zIndex: '1' }}>
+                                    <button onClick={(e)=>addOrRemoveFav(e,i)} className='fav flush fs-2'> {i.favouriteOf.includes(userId)?<i className="fa-solid fa-heart fav-selected fs-1"/>:<i className="fa-solid fa-heart fs-1" />}</button>
                                 </div>
                                 <Note data={i} />
-                                <h3 className='m-1 p-1 text-white'>{i?.title}</h3>
+                                <h3 className='text-white'>{i?.title}</h3>
                             </Col>}
                         </>
                     ):

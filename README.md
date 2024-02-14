@@ -8,11 +8,13 @@ Currently, two official plugins are available:
 - [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
 
-To do
+___To do___
 update header on delete account - done
 spinner and no-data image -done
 toastify - done
 change dummy user in profile -done
 delete notes on account deletion -done
-footer 
+footer -done
 add nice data
+submit forms with enter -
+optional - check toastify promise
