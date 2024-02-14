@@ -12,7 +12,6 @@ function EditProfile({ user }) {
     const [preview, setPreview] = useState('')
     const [imageStatus, setImageStatus] = useState(false)
     const [readyToSubmit, setReadyToSubmit] = useState(true)
-    // const [showImageTypes,setShowImageTypes]=useState(false)
     useEffect(() => { setUserData({ ...user, profileImage: "" }) }, [user])
     useEffect(()=>{
         setPreview(userData?.profileImage?URL.createObjectURL(userData.profileImage)
@@ -26,7 +25,6 @@ function EditProfile({ user }) {
                 setReadyToSubmit(false)
             }
     }, [userData])
-    // console.log("userData", user);
     const handleOpen = () => setShow(true);
     const handleClose = () => {
         setShow(false);
@@ -39,13 +37,11 @@ function EditProfile({ user }) {
             setImageStatus(true)
             setPreview(URL.createObjectURL(image))
             setUserData({ ...userData, profileImage: image })
-            // setShowImageTypes(false)
         }
         else {
             setImageStatus(false)
             setPreview(userData.profilePic ? userData.profilePic : avatar)
             setUserData({ ...userData, profileImage: "" })
-            // setShowImageTypes(true)
         }
     }
 const handleSubmit=async()=>{
@@ -58,7 +54,6 @@ const handleSubmit=async()=>{
         }
         const result = await editUserApi({ _id,uname,interests,bio,profilePic,profileImage }, reqHeader)
         if (result.status == 200) {
-            // console.log(result.data);
             console.log("successfully edited");
             setUserUpdate(!userUpdate)
             handleClose()

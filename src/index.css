@@ -156,6 +156,8 @@ ul.hidden>li {
 
 .mini p {
   text-align: justify;
+  padding: 0;
+  margin: 0;
 }
 
 .nav-pills .nav-link {

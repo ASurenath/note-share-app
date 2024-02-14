@@ -3,12 +3,13 @@ import Logo from '../assets/Logo.png'
 import { Button, ButtonGroup, Col, Container, Nav, Navbar, Row, Spinner, ToggleButton, ToggleButtonGroup } from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom'
 import Login from './Login'
-import { loginStatusContext } from '../Context/ContextShare'
+import { loginStatusContext, userUpdateContext } from '../Context/ContextShare'
 
 
 function Header({headerFor}) {
 // ___________________________________________________________HOOKS
   const {loginStatus, setLoginStatus} = useContext(loginStatusContext)
+  const { userUpdate } = useContext(userUpdateContext)
   const [loggingOut, setLoggingOut] = useState(false)
   const [uname,setUname]=useState('')
   const navigate = useNavigate()
@@ -25,7 +26,7 @@ function Header({headerFor}) {
     else {
       setLoginStatus(false)
     }
-  }, [])
+  }, [loginStatus,userUpdate])
 // _______________________________________________________________________FUNCTIONS
 // _______________________________________________________Logout
   const logout = () => {

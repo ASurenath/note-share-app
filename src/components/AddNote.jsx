@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Button, Modal } from 'react-bootstrap'
 import { addNoteApi } from '../apiServices/allApis';
 import { noteUpdateContext } from '../Context/ContextShare';
+import { toast } from 'react-toastify';
 
 
 function AddNote() {
@@ -20,7 +21,7 @@ function AddNote() {
     setTitle('')
     setShow(false);
   }
-  //////__________________________________________________________handle create note (with API call)
+  //////______________________________________________handle create note (with API call)
   const handleCreateNote = async () => {
     console.log("inside handleCreateNote");
     const reqHeader = {
@@ -30,7 +31,7 @@ function AddNote() {
     try {
       const result = await addNoteApi({ title, creationTime: Date.now() },reqHeader)
       if (result.status == 200) {
-        alert(`New note '${title}' added successfully`)
+        // toast.success(`New note '${title}' added successfully`)
         setNoteUpdate(!noteUpdate)
         handleClose()
       }
@@ -40,9 +41,10 @@ function AddNote() {
     }
     catch (err) {
       console.log(err);
-      alert('Something went wrong. Please try again later')
+      toast.error('Something went wrong. Please try again later')
     }
   }
+  // __________________________________________________________________RETURN
   return (
     <div>
       <Button variant='danger' className='mt-3 p-1 serif-bold' onClick={handleOpen}>

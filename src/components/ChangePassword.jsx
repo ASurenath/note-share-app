@@ -3,6 +3,7 @@ import { Button, Modal } from 'react-bootstrap'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 import { changePasswordApi } from '../apiServices/allApis';
+import { toast } from 'react-toastify';
 
 
 function ChangePassword() {
@@ -63,16 +64,16 @@ function ChangePassword() {
         try {
             const result = await changePasswordApi(passwords, reqHeader)
             if (result.status == 200) {
-                alert(`Passworde changed successfully`)
+                toast.success(`Passworde changed successfully`)
                 handleClose()
             }
-            else {
-                console.log(result.response.data);
+            else if (result.response.status == 404) {
+                toast.warning(result.response.data);
             }
         }
         catch (err) {
             console.log(err);
-            alert('Something went wrong. Please try again later')
+            toast.error('Something went wrong. Please try again')
         }
     }
 
@@ -87,7 +88,7 @@ function ChangePassword() {
             </ul>
         </Tooltip>
     );
-
+// // ______________________________________________________RETURN
     return (
         <div>
             <Button className='serif-bold' onClick={handleOpen}>Change password</Button>

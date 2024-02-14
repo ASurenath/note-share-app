@@ -32,6 +32,8 @@ function DeleteNote({ note }) {
   const handleClose = () => {
     setShow(false);
   }
+  // // ______________________________________________________RETURN
+
   return (
     <div>
       <Button onClick={handleOpen} variant='primary' className='normal-bold rounded-4'>

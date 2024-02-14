@@ -10,5 +10,9 @@ Currently, two official plugins are available:
 
 To do
 update header on delete account - done
-spinner and no-data image
-toastify
+spinner and no-data image -done
+toastify - done
+change dummy user in profile -done
+delete notes on account deletion -done
+footer 
+add nice data

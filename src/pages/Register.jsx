@@ -5,6 +5,7 @@ import Login from '../components/Login';
 import { Link, useNavigate } from 'react-router-dom';
 import { registerApi } from '../apiServices/allApis';
 import { loginStatusContext } from '../Context/ContextShare';
+import { toast } from 'react-toastify';
 // ____________________________________________________________
 
 function Register() {
@@ -87,20 +88,17 @@ function Register() {
         console.log(result);
         sessionStorage.setItem('token', result.data.token)
         sessionStorage.setItem('uname', result.data.user.uname)
-        // sessionStorage.setItem('email',result.data.user.email)
-        // sessionStorage.setItem('interests',result.data.user.interests)
-        // sessionStorage.setItem('bio',result.data.user.bio)
-        // sessionStorage.setItem('profilePic',result.data.user.profilePic)
-        alert(`Welcome ${userData.uname}.You have successfully registered`)
+  
+        toast.success(`Welcome ${userData.uname}.You have successfully registered`)
         navigate('/')
         setLoginStatus(true)
       }
       else {
-        alert(result.response.data)
+        toast.warning(result.response.data)
       }
     }
     catch (err) {
-      alert('Something went wrong. Please try later')
+      toast.error('Something went wrong. Please try later')
       console.log(err);
     }
   }

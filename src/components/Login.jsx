@@ -5,6 +5,7 @@ import { Button } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import { loginApi } from '../apiServices/allApis';
 import { loginStatusContext } from '../Context/ContextShare';
+import { toast } from 'react-toastify';
 
 
 
@@ -43,13 +44,13 @@ function Login() {
                 navigate('/')
                 setLoginStatus(true)
             }
-            else {
-                alert(result.response.data)
+            else if (result.response.status == 404) {
+                toast.warning(result.response.data);
             }
         }
         catch (err) {
             console.log(err);
-            alert('Something went wrong. Please try again later')
+            toast.error('Something went wrong. Please try again later')
         }
     }
     // //____________________________________________________________Return

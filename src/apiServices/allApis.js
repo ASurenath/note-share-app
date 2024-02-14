@@ -16,8 +16,8 @@ export const addNoteApi=async(noteData,reqHeader)=>{
 }
 
 ///get all notes  API
-export const getAllNotesApi=async(reqHeader)=>{
-    return await commonApi("GET",`${SERVER_URL}/notes`,'',reqHeader)
+export const getAllNotesApi=async(reqHeader,searchKey)=>{
+    return await commonApi("GET",`${SERVER_URL}/notes?search=${searchKey}`,'',reqHeader)
 }
 
 ///get my notes  API

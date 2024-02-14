@@ -3,6 +3,7 @@ import { Button, Modal } from 'react-bootstrap'
 import { deleteUserApi } from '../apiServices/allApis';
 import { useNavigate } from 'react-router-dom';
 import { loginStatusContext } from '../Context/ContextShare';
+import { toast } from 'react-toastify';
 
 
 function DeleteUser() {
@@ -24,22 +25,22 @@ function DeleteUser() {
     try {
         const result = await deleteUserApi({password}, reqHeader)
         if (result.status == 200) {
-            alert(`Account Deleted successfully`)
+            toast.info(`Account Deleted successfully`)
             setLoginStatus(false)
             handleClose()
             navigate('/')
             sessionStorage.clear()
         }
-        else {
-            console.log(result.response.data);
-        }
+        else if (result.response.status == 404) {
+          toast.warning(result.response.data);
+      }
     }
     catch (err) {
         console.log(err);
-        alert('Something went wrong. Please try again later')
+        toast.error('Something went wrong. Please try again later')
     }
 }
-
+// // ______________________________________________________RETURN
   return (
     <div>
       <Button onClick={handleOpen} className='serif-bold'>Delete account</Button>

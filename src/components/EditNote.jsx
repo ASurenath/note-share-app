@@ -6,6 +6,7 @@ import 'react-quill/dist/quill.snow.css';
 import EditorToolbar, { modules, formats } from "./Quill/EditorToolbar";
 import { editNoteApi } from '../apiServices/allApis';
 import { noteUpdateContext } from '../Context/ContextShare';
+import { toast } from 'react-toastify';
 
 const style = {
     boxSizing: 'border-box',
@@ -32,9 +33,7 @@ function EditNote({ note }) {
     const [value, setValue] = useState(note.content);
     const [saved, setSaved] = useState(value)
 
-    // console.log('value', value);
-    // console.log('saved', saved);
-    // console.log(value == saved);
+
     const handleClose = () => {
         setShow(false)
     }
@@ -64,7 +63,7 @@ function EditNote({ note }) {
             }
         }
         else {
-            alert("Title can not be empty")
+            toast.warning("Title can not be empty")
             document.getElementById('notetitle').value = note.title
         }
     }
@@ -76,7 +75,6 @@ function EditNote({ note }) {
                 show={show}
                 onHide={handleClose}
                 dialogClassName="modal-90w"
-                // data-bs-theme='dark'
                 aria-labelledby="example-custom-modal-styling-title"
                 centered
             >

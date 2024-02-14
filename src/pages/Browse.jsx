@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Col, Container, Row } from 'react-bootstrap'
+import { Col, Container, Row, Spinner } from 'react-bootstrap'
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup'
 import ToggleButton from 'react-bootstrap/ToggleButton';
@@ -7,19 +7,15 @@ import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup';
 import Note from '../components/Note';
 import { addToFavApi, getAllNotesApi, getUserDataApi, removeFromFavApi } from '../apiServices/allApis';
 import { noteUpdateContext } from '../Context/ContextShare';
-
+import noData from '../assets/no-data.png'
 
 function Browse() {
     const {noteUpdate}=useContext(noteUpdateContext)
     const [userId, setUserId] = useState('')
     const [fav, setFav] = useState(false)
     const [allNotes, setAllNotes] = useState([])
-    const [filteredNotes, setFilteredNotes] = useState([])
     const [searchKey,setSearchKey]=useState('')
     const [loaded,setLoaded]=useState(false)
-    // useEffect(() => {
-    //     setToken(sessionStorage.getItem('token'))
-    // }, [])
 
     const GetUserId = async () => {
         const token=sessionStorage.getItem('token')
@@ -31,12 +27,9 @@ function Browse() {
         if(result.status==200){
             setUserId(result.data._id)
             setLoaded(true)
-            // console.log(result.data._id);
         }
     }
-    // console.log(userId);
     useEffect(() => { GetUserId() }, [])
-    useEffect(()=>{setFilteredNotes(allNotes?.filter(i=>(i.title.includes(searchKey)||i.content.includes(searchKey))))},[allNotes,searchKey])
 
     const callGetAllNotes = async () => {
         const token = sessionStorage.getItem('token')
@@ -44,10 +37,10 @@ function Browse() {
             "Content-Type": "application/json",
             "Authorization": `Bearer ${token}`
         }
-        const result = await getAllNotesApi(reqHeader)
+        const result = await getAllNotesApi(reqHeader,searchKey)
         setAllNotes(result.data)
     }
-    useEffect(() => { callGetAllNotes() }, [noteUpdate])
+    useEffect(() => { callGetAllNotes() }, [noteUpdate,searchKey])
     console.log(allNotes);
     const addOrRemoveFav=async(e,note)=>{
         e.style = 'transform: rotate(360deg)';
@@ -65,6 +58,8 @@ function Browse() {
         }
         callGetAllNotes()
     }
+    // // ______________________________________________________RETURN
+
     return (
         <div className='page notebook d-flex flex-column justify-content-center align-items-center bg-secondary text-center pb-5 pt-lg-5' >
             <Container fluid='sm' style={{ minHeight: '100vh' }}>
@@ -93,9 +88,9 @@ function Browse() {
                         </ToggleButtonGroup>
                     </Col>
                 </Row>
-                <h2 className='text-center serif-bold text-white'>{fav ? <>Favourites</> : <>All Notes</>}</h2>
+                <h2 className='text-center serif-bold text-white'>{fav ? <>Favourites</> : searchKey?<>Search results for '{searchKey}'</>:<>All Notes</>}</h2>
                 <Row className='py-4'>
-                    {loaded?filteredNotes?.length>0?filteredNotes.map((i, index) =>
+                    {loaded?allNotes?.length>0?allNotes.map((i, index) =>
                         <>
                             {(!fav||i.favouriteOf.includes(userId))&&
                                 <Col lg={3} md={4} sm={6} xs={12} key={index} className='px-1  py-4' style={{ position: 'relative' }}>
@@ -107,8 +102,17 @@ function Browse() {
                             </Col>}
                         </>
                     ):
-                    <div>No notes to display</div>
-                    :"Loading..."
+                    <div className='d-flex flex-column justify-content-center align-items-center'> 
+                    <h1 className='handwrite text-white'>No notes to display!</h1>
+                    <img src={noData} alt="No data" className='img-fluid'/>
+                    </div>
+                    :<div className='d-flex justify-content-center align-items-center'>      
+                    <Spinner animation="grow" variant="primary" />
+                    <Spinner animation="grow" variant="success" />
+                    <Spinner animation="grow" variant="danger" />
+                    <Spinner animation="grow" variant="warning" />
+                    <Spinner animation="grow" variant="info" />
+                    </div>
                     }
                 </Row>
             </Container>

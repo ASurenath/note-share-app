@@ -29,7 +29,7 @@ function Note({ data }) {
             </Row>
         </Tooltip>
     );
-
+// ______________________________________________________________RETURN
     return (
         <>
             <div onClick={() => setShow(true)} className=' note-card bg-white p-2 mx-5 mb-0' style={{ cursor: 'zoom-in', padding: 0, margin: 0 }}>
